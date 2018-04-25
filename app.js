@@ -5,10 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
 var cors = require('cors');
-var Sequelize = require('sequelize');
-
-var dataSource = require('./config/datasources.config');
 var clientRouter = require('./routes/index');
+var connection = require('./src/connection/connection');
 
 var app = express();
 
@@ -23,19 +21,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-// Open Connection to the database
-var sequelize = new Sequelize(
-    dataSource.app.name,
-    dataSource.app.username,
-    dataSource.app.password,
-    {
-        host: dataSource.app.host,
-        dialect: dataSource.app.dialect,
-        pool: dataSource.app.pool,
-    }
-);
-
-sequelize.authenticate().then(function() {
+// Authenticate connection
+connection.authenticate().then(function() {
     console.log('Connection has been established successfully.');
 })
 .catch(function (error) {
@@ -130,5 +117,3 @@ function onListening() {
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Listening on ' + bind);
 }
-
-module.exports = sequelize;
