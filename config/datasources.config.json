@@ -1,0 +1,15 @@
+{
+    "app": {
+        "name": "COMPAS_LT_ANALYSIS",
+        "username": "sa",
+        "password": "passw0rd$",
+        "host": "localhost",
+        "dialect": "mssql",
+        "pool": {
+            "max": 5,
+            "min": 0,
+            "acquire": 30000,
+            "idle": 10000
+        }
+    }
+}
