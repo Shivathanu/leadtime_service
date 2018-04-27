@@ -6,6 +6,7 @@ var logger = require('morgan');
 var http = require('http');
 var cors = require('cors');
 var clientRouter = require('./routes/index');
+var serverRouter = require('./src/controller/index');
 var connection = require('./src/connection/connection');
 
 var app = express();
@@ -29,7 +30,11 @@ connection.authenticate().then(function() {
     console.error('Unable to connect to the database:', error);
 });
 
+// Client Routing
 app.use('/LeadtimeService', clientRouter);
+
+// Server Routing
+app.use('/LeadtimeService/api', serverRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
