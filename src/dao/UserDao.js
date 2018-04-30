@@ -1,4 +1,4 @@
-var User = require('../model/User');
+var Models = require('../model/index');
 var UserDao = {};
 
 /**
@@ -7,7 +7,7 @@ var UserDao = {};
  * @param {Function} findUsersCB
  */
 UserDao.findAllUsers = function (findUsersCB) {
-    User.findAll().then(function (users) {
+    Models.User.findAll().then(function (users) {
         return findUsersCB(null, users);
     }, function (findError) {
         return findUsersCB(findError);
@@ -21,7 +21,7 @@ UserDao.findAllUsers = function (findUsersCB) {
  * @param {Function} createUserCB
  */
 UserDao.createUser = function (reqParams, createUserCB) {
-    User.create(reqParams).then(function (user) {
+    Models.User.create(reqParams).then(function (user) {
         return createUserCB(null, user);
     }, function (createError) {
         return createUserCB(createError);

@@ -25,8 +25,7 @@ app.use(cors());
 // Authenticate connection
 connection.authenticate().then(function() {
     console.log('Connection has been established successfully.');
-})
-.catch(function (error) {
+}, function (error) {
     console.error('Unable to connect to the database:', error);
 });
 

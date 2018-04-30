@@ -2,20 +2,16 @@ var Sequelize = require('sequelize');
 var sequelize = require('../connection/connection');
 
 /**
- * User Model
+ * Role Model
  */
 module.exports = function() {
-    var User = sequelize.define('User', {
+    var Role = sequelize.define('Role', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        userName: Sequelize.STRING,
-        email: {
-            type: Sequelize.STRING,
-            isEmail: true
-        },
+        description: Sequelize.STRING,
         createdAt: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
@@ -25,12 +21,12 @@ module.exports = function() {
         }
     }, {
         hooks: {
-            beforeSave: function (user) {
-                user.updatedAt = new Date();
+            beforeSave: function (role) {
+                role.updatedAt = new Date();
             }
         },
         associate: function (models) {
-            User.belongsTo(models.Role, {
+            Role.hasMany(models.User, { 
                 foreignKey: {
                     name: 'roleId',
                     allowNull: false
@@ -39,5 +35,5 @@ module.exports = function() {
             });
         }
     });
-    return User;
+    return Role;
 };
