@@ -1,4 +1,4 @@
-var Models = require('../model/index');
+var Models = require('../models/index');
 var UserDao = {};
 
 /**

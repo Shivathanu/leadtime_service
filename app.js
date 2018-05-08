@@ -7,7 +7,6 @@ var http = require('http');
 var cors = require('cors');
 var clientRouter = require('./routes/index');
 var serverRouter = require('./src/controller/index');
-var connection = require('./src/connection/connection');
 
 var app = express();
 
@@ -21,13 +20,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-
-// Authenticate connection
-connection.authenticate().then(function() {
-    console.log('Connection has been established successfully.');
-}, function (error) {
-    console.error('Unable to connect to the database:', error);
-});
 
 // Client Routing
 app.use('/LeadtimeService', clientRouter);
