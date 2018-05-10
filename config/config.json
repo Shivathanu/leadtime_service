@@ -13,11 +13,17 @@
         }
     },
     "test": {
-        "username": "root",
-        "password": null,
-        "database": "database_test",
-        "host": "127.0.0.1",
-        "dialect": "mysql"
+        "database": "COMPAS_LT_ANALYSIS_TEST",
+        "username": "sa",
+        "password": "passw0rd$",
+        "host": "localhost",
+        "dialect": "mssql",
+        "pool": {
+            "max": 10,
+            "min": 1,
+            "acquire": 30000,
+            "idle": 10000
+        }
     },
     "production": {
         "username": "root",
