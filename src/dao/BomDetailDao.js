@@ -27,7 +27,11 @@ BomDetailDao.createBom = function(reqParam, createBomCB) {
  * @param {Function} getAllBomDetailCB
  */
 BomDetailDao.getAllBomDetail = function(getAllBomDetailCB) {
-    Models.BomDetail.findAll().then(function(bomDetailList) {
+    Models.BomDetail.findAll({
+        include: {
+            model: Models.User
+        }
+    }).then(function(bomDetailList) {
         return getAllBomDetailCB(null, bomDetailList);
     }, function(getError) {
         return getAllBomDetailCB(getError);

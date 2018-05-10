@@ -17,7 +17,13 @@ module.exports = {
             createdBy: {
                 type: Sequelize.STRING,
                 allowNull: false,
-                field: 'created_by'
+                field: 'created_by',
+                references: {
+                    model: {
+                        tableName: 'lta_user',
+                    },
+                    key: 'user_id'
+                }
             },
             createdByName: {
                 type: Sequelize.STRING,
@@ -33,14 +39,15 @@ module.exports = {
                 type: Sequelize.STRING,
                 field: 'sold_to_acc'
             },
-            created_at: {
-                allowNull: false,
+            createdAt: {
                 type: Sequelize.DATE,
-                defaultValue: Sequelize.NOW
-            },
-            updated_at: {
                 allowNull: false,
-                type: Sequelize.DATE
+                field: 'created_at'
+            },
+            updatedAt: {
+                type: Sequelize.DATE,
+                allowNull: false,
+                field: 'updated_at'
             }
         });
     },
