@@ -2,3 +2,5 @@ node_modules/
 src/migrations/
 public/
 views/
+coverage/
+.nyc_output/
