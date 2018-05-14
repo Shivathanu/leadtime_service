@@ -1,6 +1,6 @@
 var express = require('express');
 var UserController = express.Router();
-var UserService = require('../service/UserService');
+var userService = require('../service/UserService');
 
 /**
  * Controller to match router "/api/user/all"
@@ -8,8 +8,8 @@ var UserService = require('../service/UserService');
  * @param {Object} request
  * @param {Object} response
  */
-UserController.get('/all', function (request, response) {
-    UserService.getAllUsers(function (getError, users) {
+UserController.get('/all', function(request, response) {
+    userService.getAllUsers(function(getError, users) {
         if (getError) {
             console.error('Error while getting all users', getError);
             response.status(500).send(getError);
@@ -24,8 +24,8 @@ UserController.get('/all', function (request, response) {
  * @param {Object} request
  * @param {Object} response
  */
-UserController.post('/save', function (request, response) {
-    UserService.saveUser(request.body, function (createError, user) {
+UserController.post('/save', function(request, response) {
+    userService.saveUser(request.body, function(createError, user) {
         if (createError) {
             console.error('Error while creating a user', createError);
             response.status(500).send(createError);

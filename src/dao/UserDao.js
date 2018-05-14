@@ -6,8 +6,8 @@ var UserDao = {};
  * 
  * @param {Function} findUsersCB
  */
-UserDao.findAllUsers = function (findUsersCB) {
-    Models.User.findAll().then(function (users) {
+UserDao.findAllUsers = function(findUsersCB) {
+    Models.User.findAll().then(function(users) {
         return findUsersCB(null, users);
     }, function (findError) {
         return findUsersCB(findError);
@@ -20,8 +20,8 @@ UserDao.findAllUsers = function (findUsersCB) {
  * @param {Object} reqParams
  * @param {Function} createUserCB
  */
-UserDao.createUser = function (reqParams, createUserCB) {
-    Models.User.create(reqParams).then(function (user) {
+UserDao.createUser = function(reqParams, createUserCB) {
+    Models.User.create(reqParams).then(function(user) {
         return createUserCB(null, user);
     }, function (createError) {
         return createUserCB(createError);

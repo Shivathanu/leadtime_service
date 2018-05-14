@@ -39,6 +39,11 @@ module.exports = {
                 type: Sequelize.STRING,
                 field: 'sold_to_acc'
             },
+            status: {
+                type: Sequelize.STRING,
+                field: 'status',
+                allowNull: false
+            },
             createdAt: {
                 type: Sequelize.DATE,
                 allowNull: false,

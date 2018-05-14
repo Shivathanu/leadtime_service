@@ -1,4 +1,4 @@
-var UserDao = require('../dao/UserDao');
+var userDao = require('../dao/UserDao');
 var UserService = {};
 
 /**
@@ -6,8 +6,8 @@ var UserService = {};
  * 
  * @param {Function} getUsersCB
  */
-UserService.getAllUsers = function (getUsersCB) {
-    UserDao.findAllUsers(function (findError, users) {
+UserService.getAllUsers = function(getUsersCB) {
+    userDao.findAllUsers(function(findError, users) {
         if (findError) {
             return getUsersCB(findError);
         }
@@ -21,8 +21,8 @@ UserService.getAllUsers = function (getUsersCB) {
  * @param {Object} reqParams
  * @param {Function} createCB
  */
-UserService.saveUser = function (reqParams, createCB) {
-    UserDao.createUser(reqParams, function (saveError, user) {
+UserService.saveUser = function(reqParams, createCB) {
+    userDao.createUser(reqParams, function(saveError, user) {
         if (saveError) {
             return createCB(saveError);
         }

@@ -5,7 +5,8 @@ module.exports = function(sequelize, DataTypes) {
     var BomDetail = sequelize.define('BomDetail', {
         bomId: {
             type: DataTypes.STRING,
-            field: 'bom_id'
+            field: 'bom_id',
+            unique: true
         },
         createdBy: {
             type: DataTypes.STRING,
@@ -22,6 +23,10 @@ module.exports = function(sequelize, DataTypes) {
         soldToAcc: {
             type: DataTypes.STRING,
             field: 'sold_to_acc'
+        },
+        status: {
+            type: DataTypes.STRING,
+            field: 'status'
         }
     }, {
         underscored: true,
@@ -32,6 +37,11 @@ module.exports = function(sequelize, DataTypes) {
         BomDetail.belongsTo(models.User, {
             foreignKey: 'createdBy',
             targetKey: 'userId',
+            onDelete: 'cascade'
+        });
+        BomDetail.hasMany(models.ItemDetail, {
+            foreignKey: 'bom_id',
+            sourceKey: 'bomId',
             onDelete: 'cascade'
         });
     };

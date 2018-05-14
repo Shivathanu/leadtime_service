@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var UserController = require('./UserController');
-var BomDetailController = require('./BomDetailController');
+var userController = require('./UserController');
+var bomDetailController = require('./BomDetailController');
+var itemDetailController = require('./ItemDetailController');
 
-router.use('/user', UserController);
+router.use('/user', userController);
 
-router.use('/bom-detail', BomDetailController);
+router.use('/bom-detail', bomDetailController);
+
+router.use('/item-detail', itemDetailController);
 
 module.exports = router;
