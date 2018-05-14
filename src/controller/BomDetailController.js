@@ -12,7 +12,7 @@ BomDetailController.post('/create', function(request, response) {
     bomDetailService.createBom(request.body, function(createError, createdBom) {
         if(createError) {
             console.log('Error occured while creating new bom, Actual Error:',createError);
-            response.status(200).send(createError);
+            response.status(500).send(createError);
         }
         response.send(createdBom); 
     });
@@ -28,7 +28,7 @@ BomDetailController.get('/all', function(request, response) {
     bomDetailService.getAllBomDetail(function(getError, bomDetailList) {
         if(getError) {
             console.log('Error occured while getting all bom details', getError);
-            response.status(200).send(getError);
+            response.status(500).send(getError);
         }
         response.send(bomDetailList);
     });

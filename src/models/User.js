@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     User.associate = function(models) {
         User.hasMany(models.BomDetail, {
             foreignKey: 'createdBy',
-            sourceKey: 'userId',
+            sourceKey: 'user_id',
             onDelete: 'cascade'
         });
     };

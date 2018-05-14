@@ -40,8 +40,8 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: 'cascade'
         });
         BomDetail.hasMany(models.ItemDetail, {
-            foreignKey: 'bom_id',
-            sourceKey: 'bomId',
+            foreignKey: 'bomId',
+            sourceKey: 'bom_id',
             onDelete: 'cascade'
         });
     };
