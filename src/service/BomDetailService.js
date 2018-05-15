@@ -19,10 +19,27 @@ BomDetailService.createBom = function(reqParam, creatBomCB) {
 /**
  * Service to get all bom details
  * 
+ * @param {Object} reqParam
+ * @param {Function} getPageCountCB
+ */
+BomDetailService.getPageCount = function(reqParam, getPageCountCB) {
+    bomDetailDao.getPageCount(reqParam, function(getError, pageCount) {
+        if(getError) {
+            return getPageCountCB(getError);
+        }
+        return getPageCountCB(null, pageCount);
+    });
+};
+
+
+/**
+ * Service to get all bom details
+ * 
+ * @param {Object} reqParam
  * @param {Function} getAllBomDetailCB
  */
-BomDetailService.getAllBomDetail = function(getAllBomDetailCB) {
-    bomDetailDao.getAllBomDetail(function(getError, bomDetailList) {
+BomDetailService.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
+    bomDetailDao.getAllBomDetail(reqParam, function(getError, bomDetailList) {
         if(getError) {
             return getAllBomDetailCB(getError);
         }

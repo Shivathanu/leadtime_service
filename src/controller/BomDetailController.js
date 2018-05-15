@@ -19,13 +19,29 @@ BomDetailController.post('/create', function(request, response) {
 });
 
 /**
+ * Controller to get total page count
+ * 
+ * @param {Object} request
+ * @param {Object} response
+ */
+BomDetailController.get('/count', function(request, response){
+    bomDetailService.getPageCount(request.body, function (getError, pageCount) {
+        if(getError) {
+            console.log('Error occured while getting bom details page count', getError);
+            response.status(500).send(getError);
+        }
+        response.send(pageCount);
+    });
+});
+
+/**
  * Controller method to get all bom details
  * 
  * @param {Object} request
  * @param {Object} response
  */
-BomDetailController.get('/all', function(request, response) {
-    bomDetailService.getAllBomDetail(function(getError, bomDetailList) {
+BomDetailController.post('/all', function(request, response) {
+    bomDetailService.getAllBomDetail(request.body, function(getError, bomDetailList) {
         if(getError) {
             console.log('Error occured while getting all bom details', getError);
             response.status(500).send(getError);

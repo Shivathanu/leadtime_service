@@ -23,11 +23,30 @@ BomDetailDao.createBom = function(reqParam, createBomCB) {
 };
 
 /**
+ * Dao to get page count of boms
+ * 
+ * @param {Object} reqParam
+ * @param {Function} getPageCountCB
+ */
+BomDetailDao.getPageCount = function(reqParam, getPageCountCB){
+    Models.BomDetail.count({
+        where: {
+            status: constant.HOLDSTATUS
+        }
+        }).then(function(pageCount) {
+            return getPageCountCB(null, {count: pageCount});
+        }, function(getError) {
+            return getPageCountCB(getError);
+    });
+};
+
+/**
  * Dao method to get all bom details.
  * 
+ * @param {Object} reqParam
  * @param {Function} getAllBomDetailCB
  */
-BomDetailDao.getAllBomDetail = function(getAllBomDetailCB) {
+BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
     Models.BomDetail.findAll({
         include: {
             model: Models.ItemDetail,
@@ -36,6 +55,8 @@ BomDetailDao.getAllBomDetail = function(getAllBomDetailCB) {
                 status: constant.HOLDSTATUS
             }
         },
+        limit: constant.BOMDETAILPAGECOUNT,
+        offset: constant.BOMDETAILPAGECOUNT * (reqParam.pageIndex - 1),
         order: [[
             {
                 model: Models.ItemDetail
