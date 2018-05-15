@@ -1,5 +1,30 @@
 var bomDetailDao = require('../dao/BomDetailDao');
+var _ = require('lodash');
+var async = require('async');
 var BomDetailService = {};
+
+
+
+/**
+ * Private method to separate bom list to today and other list
+ * 
+ * @param {Object} bomDetailList 
+ * @param {Function} separateBomCB 
+ */
+var separateBom = function(bomDetailList, separateBomCB) {
+    var today = new Date();
+    var groupedLineItems = _.map(bomDetailList, function(bom) {
+        if(_.some(bom.ItemDetails, function(lineItem) { 
+            return new Date(lineItem.followUpDate) <= today;
+        })) {
+            return _.extend(bom, {'groupType': 'today'});
+        }
+        return _.extend(bom, {'groupType': 'other'});
+    });
+    return separateBomCB(null, _.assignIn({today: [], other: []}, 
+        _.groupBy(groupedLineItems, 'groupType')));
+};
+
 
 /**
  * Service to create new bom
@@ -39,12 +64,17 @@ BomDetailService.getPageCount = function(reqParam, getPageCountCB) {
  * @param {Function} getAllBomDetailCB
  */
 BomDetailService.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
-    bomDetailDao.getAllBomDetail(reqParam, function(getError, bomDetailList) {
-        if(getError) {
-            return getAllBomDetailCB(getError);
+    async.waterfall([
+        async.apply(bomDetailDao.getAllBomDetail, reqParam),
+        separateBom
+    ], function(waterFallError, result) {
+        if(waterFallError) {
+            return getAllBomDetailCB(waterFallError);
         }
-        return getAllBomDetailCB(null, bomDetailList);
+        return getAllBomDetailCB(null, result);
     });
 };
+
+
 
 module.exports = BomDetailService;

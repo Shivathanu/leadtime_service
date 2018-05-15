@@ -40,8 +40,8 @@ BomDetailController.get('/count', function(request, response){
  * @param {Object} request
  * @param {Object} response
  */
-BomDetailController.post('/all', function(request, response) {
-    bomDetailService.getAllBomDetail(request.body, function(getError, bomDetailList) {
+BomDetailController.get('/all/:pageIndex', function(request, response) {
+    bomDetailService.getAllBomDetail(request.params, function(getError, bomDetailList) {
         if(getError) {
             console.log('Error occured while getting all bom details', getError);
             response.status(500).send(getError);
