@@ -41,12 +41,12 @@ module.exports = {
             releaseDate: {
                 type: Sequelize.DATE,
                 field: 'release_date',
-                allowNull: false
+                allowNull: true
             },
             holdDate: {
                 type: Sequelize.DATE,
                 field: 'hold_date',
-                allowNull: false
+                allowNull: true
             },
             bomId: {
                 type: Sequelize.STRING,
