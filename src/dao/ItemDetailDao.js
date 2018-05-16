@@ -1,4 +1,5 @@
 var Models = require('../models/index');
+var constant = require('../util/Constant.js');
 var ItemDetailDao = {};
 
 /**
@@ -24,6 +25,7 @@ ItemDetailDao.createdLineItem = function(reqParam, createdLineItemCB) {
 ItemDetailDao.getLineItemByBomId = function(reqParam, getLineItemByBomIdCB) {
     Models.ItemDetail.findAll({
         where: {
+            status: constant.HOLDSTATUS,
             bomId: reqParam.bomId
         }
     }).then(function(lineItemList){

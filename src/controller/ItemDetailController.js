@@ -24,8 +24,8 @@ ItemDetailController.post('/create', function(request, response){
  * @param {Object} request,
  * @param {Object} response
  */
-ItemDetailController.post('/all', function(request, response){
-    itemDetailService.getLineItemByBomId(request.body, function(getError, itemDetail){
+ItemDetailController.get('/all/:bomId', function(request, response){
+    itemDetailService.getLineItemByBomId(request.params, function(getError, itemDetail){
         if(getError) {
             console.log('Error while getting line item details by bom id');
             response.status(500).send(getError);

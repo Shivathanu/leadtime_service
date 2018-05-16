@@ -52,7 +52,7 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
             model: Models.ItemDetail,
             attributes: ['itemId', 'followUpDate', 'status'],
             where: {
-                status: constant.HOLDSTATUS
+                status: reqParam.status
             }
         },
         limit: constant.BOMDETAILPAGECOUNT,
@@ -64,10 +64,10 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
             'follow_up_date'
         ]],
         where: {
-            status: constant.HOLDSTATUS
+            status: reqParam.status
         }
     }).then(function(bomDetailList) {
-        return getAllBomDetailCB(null, bomDetailList);
+        return getAllBomDetailCB(null, reqParam, bomDetailList);
     }, function(getError) {
         return getAllBomDetailCB(getError);
     });
