@@ -28,13 +28,9 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             field: 'lead_time',
         },
-        releaseDate: {
+        scheduledDate: {
             type: DataTypes.DATE,
-            field: 'release_date'
-        },
-        holdDate: {
-            type: DataTypes.DATE,
-            field: 'hold_date',
+            field: 'scheduled_request_date'
         },
         bomId: {
             type: DataTypes.STRING,

@@ -38,15 +38,10 @@ module.exports = {
                 field: 'lead_time',
                 allowNull: false
             },
-            releaseDate: {
+            scheduledDate: {
                 type: Sequelize.DATE,
-                field: 'release_date',
-                allowNull: true
-            },
-            holdDate: {
-                type: Sequelize.DATE,
-                field: 'hold_date',
-                allowNull: true
+                field: 'scheduled_request_date',
+                allowNull: false
             },
             bomId: {
                 type: Sequelize.STRING,

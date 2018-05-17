@@ -39,6 +39,16 @@ module.exports = {
                 type: Sequelize.STRING,
                 field: 'sold_to_acc'
             },
+            soldToAccName: {
+                type: Sequelize.STRING,
+                field: 'sold_to_acc_name',
+                allowNull: false
+            },
+            orderNumber: {
+                type: Sequelize.STRING,
+                field: 'order_number',
+                allowNull: false
+            },
             status: {
                 type: Sequelize.STRING,
                 field: 'status',
