@@ -33,7 +33,7 @@ var separateBom = function(reqParam, bomDetailList, separateBomCB) {
 /**
  * Service to create new bom
  * 
- * @param { Object } reqParam
+ * @param {Object} reqParam
  * @param {Function} creatBomCB
  */
 BomDetailService.createBom = function(reqParam, creatBomCB) {

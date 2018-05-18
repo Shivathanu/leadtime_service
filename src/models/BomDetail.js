@@ -29,8 +29,16 @@ module.exports = function(sequelize, DataTypes) {
             field: 'sold_to_acc_name'
         },
         orderNumber: {
+            type: DataTypes.STRING(35),
+            field: 'order_number',
+        },
+        customerPOId: {
             type: DataTypes.STRING,
-            field: 'order_number'
+            field: 'customer_purchase_number'
+        },
+        endUserName: {
+            type: DataTypes.STRING,
+            field: 'end_user_name'
         },
         status: {
             type: DataTypes.STRING,

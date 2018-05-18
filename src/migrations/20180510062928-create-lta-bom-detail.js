@@ -45,8 +45,18 @@ module.exports = {
                 allowNull: false
             },
             orderNumber: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(35),
                 field: 'order_number',
+                allowNull: false
+            },
+            customerPOId: {
+                type: Sequelize.STRING(35),
+                field: 'customer_purchase_number',
+                allowNull: false
+            },
+            endUserName: {
+                type: Sequelize.STRING(80),
+                field: 'end_user_name',
                 allowNull: false
             },
             status: {

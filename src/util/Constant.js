@@ -1,6 +1,6 @@
 var constant = {
-    HOLDSTATUS: 'hold',
-    COMPLETEDSTATUS: 'completed',
+    HOLDSTATUS: 'Hold',
+    COMPLETEDSTATUS: 'Released',
     BOMDETAILPAGECOUNT: 10
 };
 
