@@ -50,5 +50,21 @@ BomDetailController.get('/all/:status/:pageIndex', function(request, response) {
     });
 });
 
+/**
+ * Controller method to get bom and corresponding line items by bomId
+ * 
+ * @param {Object} request
+ * @param {Object} response
+ */
+BomDetailController.get('/bom-info/:bomId', function(request, response) {
+    bomDetailService.getBomById(request.params, function(getError, bom) {
+        if(getError) {
+            console.log('Error while getting bom by id', getError);
+            response.status(500).send(getError);
+        }
+        response.send(bom);
+    });
+});
+
 
 module.exports = BomDetailController;

@@ -73,4 +73,36 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
     });
 };
 
+/**
+ * Dao method to get bom and corresponding line-item using id
+ * 
+ * @param {Object} reqParam
+ * @param {Object} getBomByIdCB
+ */
+BomDetailDao.getBomById = function(reqParam, getBomByIdCB) {
+    Models.BomDetail.find({
+        attributes: ['bomId', 'soldToAcc', 'soldToAccName', 'orderNumber', 'customerPOId'],
+        include: {
+            model: Models.ItemDetail,
+            where: {
+                status: constant.HOLDSTATUS
+            }
+        },
+        order: [[
+            {
+                model: Models.ItemDetail
+            }, 
+            'follow_up_date'
+        ]],
+        where: {
+            bomId: reqParam.bomId,
+            status: constant.HOLDSTATUS
+        }
+    }).then(function(bom) {
+        return getBomByIdCB(null, bom);
+    }, function(getError) {
+        return getBomByIdCB(getError);
+    });
+};
+
 module.exports = BomDetailDao;

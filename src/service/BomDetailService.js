@@ -69,7 +69,7 @@ BomDetailService.getPageCount = function(reqParam, getPageCountCB) {
  */
 var countLineItem = function(reqParam, bomDetailList, countLineItemCB) {
     if(reqParam.status === constant.HOLDSTATUS) {
-        var today = new Date();
+        var today = new Date();            
         _.forEach(bomDetailList.today, function(bom) {
             bom.dataValues.totalLineItems = bom.ItemDetails.length;
             bom.dataValues.lineItemToFollowUp = _.filter(bom.ItemDetails, function(lineItem) {
@@ -116,6 +116,25 @@ BomDetailService.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
     );
 };
 
+/**
+ * Service to get bom and corresponding line-items using bomid
+ * 
+ * @param {Object} reqParam
+ * @param {Object} getBomByIdCB
+ */
+BomDetailService.getBomById = function(reqParam, getBomByIdCB) {
+    var today = new Date();
+    bomDetailDao.getBomById(reqParam, function(getError, bom) {
+        if(getError) {
+            return getBomByIdCB(getError);
+        }
+        bom.dataValues.totalLineItems = bom.ItemDetails.length;
+        bom.dataValues.lineItemToFollowUp = _.filter(bom.ItemDetails, function(lineItem) {
+            return (new Date(lineItem.followUpDate) <= today);
+        }).length;
+        return getBomByIdCB(null, bom);
+    }); 
+};
 
 
 module.exports = BomDetailService;
