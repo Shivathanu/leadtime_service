@@ -10,8 +10,7 @@
     "migrate-development": "set NODE_ENV=development&&sequelize db:migrate",
     "migrate-production": "set NODE_ENV=production&&sequelize db:migrate",
     "migrate-test": "set NODE_ENV=test&&sequelize db:migrate",
-    "test": "set NODE_ENV=test&&nyc mocha",
-    "report": "set NODE_ENV=test&&nyc report --reporter=html",
+    "test": "set NODE_ENV=test&&istanbul cover --handle-sigint ./node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register",
     "jshint": "jshint ."
   },
   "dependencies": {
@@ -30,10 +29,12 @@
     "winston": "^2.4.2"
   },
   "devDependencies": {
+    "babel": "^6.23.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "istanbul": "^1.1.0-alpha.1",
     "jshint": "^2.9.5",
-    "mocha": "^5.1.1",
+    "mocha": "^5.2.0",
     "nyc": "^11.7.3",
     "pre-commit": "^1.2.2"
   },

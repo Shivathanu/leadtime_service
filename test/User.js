@@ -10,6 +10,9 @@ describe('User Model', function() {
         chai.request(app)
             .get('/LeadtimeService/api/user/all')
             .end(function (error, response) {
+                if (error) {
+                    done(error);
+                }
                 expect(response.status).to.equal(200);
                 done();
             });
