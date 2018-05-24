@@ -8,6 +8,17 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
+            bomId: {
+                type: Sequelize.STRING,
+                field: 'bom_id',
+                allowNull: false,
+                references: {
+                    model: {
+                        tableName: 'lta_bom_detail',
+                    },
+                    key: 'bom_id'
+                }
+            },
             itemId: {
                 type: Sequelize.STRING,
                 field: 'item_id',
@@ -23,41 +34,58 @@ module.exports = {
                 field: 'product_name',
                 allowNull: false
             },
+            description: {
+                type: Sequelize.STRING,
+                field: 'descripion'
+            },
+            designation: {
+                type: Sequelize.STRING,
+                field: 'designation'
+            },
             quantity: {
                 type: Sequelize.INTEGER,
                 field: 'quantity',
                 allowNull: false
             },
+            holdDate: {
+                type: Sequelize.DATE,
+                field: 'hold_date',
+                allowNull: false
+            },
+            prevLeadTime: {
+                type: Sequelize.INTEGER,
+                field: 'previous_lead_time',
+                allowNull: false
+            },
+            currentLeadTime: {
+                type: Sequelize.INTEGER,
+                field: 'current_lead_time',
+                allowNull: false
+            },
+            releaseDate: {
+                type: Sequelize.DATE,
+                field: 'release_date',
+                allowNull: false
+            },            
             followUpDate: {
                 type: Sequelize.DATE,
                 field: 'follow_up_date',
                 allowNull: false
             },
-            leadTime: {
-                type: Sequelize.INTEGER,
-                field: 'lead_time',
+            shippingAddress: {
+                type: Sequelize.TEXT,
+                field: 'shipping_address_detail',
                 allowNull: false
-            },
-            scheduledDate: {
-                type: Sequelize.DATE,
-                field: 'scheduled_request_date',
-                allowNull: false
-            },
-            bomId: {
-                type: Sequelize.STRING,
-                field: 'bom_id',
-                allowNull: false,
-                references: {
-                    model: {
-                        tableName: 'lta_bom_detail',
-                    },
-                    key: 'bom_id'
-                }
             },
             status: {
                 type: Sequelize.STRING,
                 field: 'status',
                 allowNull: false
+            },
+            itemCreatedAt: {
+                type: Sequelize.DATE,
+                field: 'src_created_at',
+                allowNull: 'false'
             },
             createdAt: {
                 allowNull: false,

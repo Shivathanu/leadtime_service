@@ -7,13 +7,29 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             field: 'user_id'
         },
-        userName: {
+        firstName: {
             type: DataTypes.STRING,
-            field: 'user_name'
+            field: 'first_name',
+        },
+        middleName: {
+            type: DataTypes.STRING,
+            field: 'middle_name'
+        },
+        lastName: {
+            type: DataTypes.STRING,
+            field: 'last_name'
+        },
+        fullName: {
+            type: DataTypes.STRING,
+            field: 'full_name'
         },
         emailId: {
             type: DataTypes.STRING,
             field: 'email_id'
+        },
+        roleId: {
+            type: DataTypes.STRING,
+            field: 'role_id',
         },
         createdAt: {
             type: DataTypes.DATE,

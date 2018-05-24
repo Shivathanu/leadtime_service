@@ -4,30 +4,48 @@ module.exports = {
         return queryInterface.createTable('lta_user', {
             id: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
+                allowNull: false
             },
             userId: {
                 type: Sequelize.STRING,
-                allowNull: false,
                 field: 'user_id',
-                unique: true
+                unique: true,
+                allowNull: false
             },
-            userName: {
+            firstName: {
                 type: Sequelize.STRING,
-                allowNull: false,
-                field: 'user_name'
+                field: 'first_name',
+                allowNull: false
+            },
+            middleName: {
+                type: Sequelize.STRING,
+                field: 'middle_name'
+            },
+            lastName: {
+                type: Sequelize.STRING,
+                field: 'last_name'
+            },
+            fullName: {
+                type: Sequelize.STRING,
+                field: 'full_name',
+                allowNull: false                
             },
             emailId: {
                 type: Sequelize.STRING,
-                allowNull: false,
-                field: 'email_id'
+                field: 'email_id',
+                allowNull: false
+            },
+            roleId: {
+                type: Sequelize.STRING,
+                field: 'role_id',
+                allowNull: false
             },
             createdAt: {
                 type: Sequelize.DATE,
-                allowNull: false,
-                field: 'created_at'
+                field: 'created_at',
+                allowNull: false
             },
             updatedAt: {
                 type: Sequelize.DATE,

@@ -7,6 +7,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             field: 'item_id',
             unique: true
+        },        
+        bomId: {
+            type: DataTypes.STRING,
+            field: 'bom_id'
         },
         productId: {
             type: DataTypes.STRING,
@@ -20,25 +24,45 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             field: 'quantity',
         },
+        description: {
+            type: DataTypes.STRING,
+            field: 'descripion'
+        },
+        designation: {
+            type: DataTypes.STRING,
+            field: 'designation'
+        },
+        holdDate: {
+            type: DataTypes.DATE,
+            field: 'hold_date'
+        },
+        prevLeadTime: {
+            type: DataTypes.INTEGER,
+            field: 'previous_lead_time'
+        },
+        currentLeadTime: {
+            type: DataTypes.INTEGER,
+            field: 'current_lead_time',
+        },
+        releaseDate: {
+            type: DataTypes.DATE,
+            field: 'release_date'
+        },        
         followUpDate: {
             type: DataTypes.DATE,
             field: 'follow_up_date',
         },
-        leadTime: {
-            type: DataTypes.INTEGER,
-            field: 'lead_time',
-        },
-        scheduledDate: {
-            type: DataTypes.DATE,
-            field: 'scheduled_request_date'
-        },
-        bomId: {
-            type: DataTypes.STRING,
-            field: 'bom_id'
+        shippingAddress: {
+            type: DataTypes.TEXT,
+            field: 'shipping_address_detail'
         },
         status: {
             type: DataTypes.STRING,
             field: 'status'
+        },
+        itemCreatedAt: {
+            type: DataTypes.DATE,
+            field: 'src_created_at'
         },
         createdAt: {
             type: DataTypes.DATE,

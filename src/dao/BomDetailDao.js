@@ -9,13 +9,7 @@ var constant = require('../util/Constant.js');
  * @param {Function} creatBomCB
  */
 BomDetailDao.createBom = function(reqParam, createBomCB) {
-    Models.BomDetail.create({
-        bomId: reqParam.bomId,
-        createdBy: reqParam.createdBy,
-        createdByName: reqParam.createdByName,
-        bomCreatedDate: new Date(reqParam.bomCreatedDate),
-        soldToAcc: reqParam.soldToAcc,
-    }).then(function(createdBom) {
+    Models.BomDetail.create(reqParam).then(function(createdBom) {
         return createBomCB(null, createdBom);
     }, function(createError) {
         return createBomCB(createError);
@@ -48,14 +42,17 @@ BomDetailDao.getPageCount = function(reqParam, getPageCountCB){
  */
 BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
     Models.BomDetail.findAll({
-        include: {
+        include: [{
             model: Models.ItemDetail,
             as: 'itemDetails',
             attributes: ['itemId', 'followUpDate', 'status'],
             where: {
                 status: reqParam.status
             }
-        },
+        }, {
+            model: Models.EndUser,
+            as: 'endUser'
+        }],
         limit: constant.BOMDETAILPAGECOUNT,
         offset: constant.BOMDETAILPAGECOUNT * (reqParam.pageIndex - 1),
         order: [[

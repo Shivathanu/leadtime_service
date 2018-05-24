@@ -54,6 +54,17 @@ module.exports = {
                 field: 'customer_purchase_number',
                 allowNull: false
             },
+            endUserId: {
+                type: Sequelize.STRING,
+                field: 'end_user_id',
+                allowNull: false,
+                references: {
+                    model: {
+                        tableName: 'lta_end_user'
+                    },
+                    key: 'end_user_id'
+                }
+            },  
             endUserName: {
                 type: Sequelize.STRING(80),
                 field: 'end_user_name',

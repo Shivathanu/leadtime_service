@@ -36,6 +36,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             field: 'customer_purchase_number'
         },
+        endUserId: {
+            type: DataTypes.STRING,
+            field: 'end_user_id'
+        },
         endUserName: {
             type: DataTypes.STRING,
             field: 'end_user_name'
@@ -61,6 +65,12 @@ module.exports = function(sequelize, DataTypes) {
         BomDetail.belongsTo(models.User, {
             foreignKey: 'createdBy',
             targetKey: 'userId',
+            onDelete: 'cascade'
+        });
+        BomDetail.belongsTo(models.EndUser, {
+            as: 'endUser',
+            foreignKey: 'endUserId',
+            targetKey: 'endUserId',
             onDelete: 'cascade'
         });
         BomDetail.hasMany(models.ItemDetail, {
