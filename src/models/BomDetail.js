@@ -43,10 +43,18 @@ module.exports = function(sequelize, DataTypes) {
         status: {
             type: DataTypes.STRING,
             field: 'status'
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            field: 'created_at'
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            field: 'updated_at'
         }
     }, {
-        underscored: true,
-        freezeTableName: true,    
+        timeStamps: true,
+        freezeTableName: true,
         tableName: 'lta_bom_detail'
     });
     BomDetail.associate = function(models) {
@@ -56,6 +64,7 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: 'cascade'
         });
         BomDetail.hasMany(models.ItemDetail, {
+            as: 'itemDetails',
             foreignKey: 'bomId',
             sourceKey: 'bom_id',
             onDelete: 'cascade'

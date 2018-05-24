@@ -39,10 +39,18 @@ module.exports = function(sequelize, DataTypes) {
         status: {
             type: DataTypes.STRING,
             field: 'status'
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            field: 'created_at'
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            field: 'updated_at'
         }
     }, {
-        underscored: true,
-        freezeTableName: true,    
+        timeStamps: true,
+        freezeTableName: true,
         tableName: 'lta_item_detail'
     });
     ItemDetail.associate = function(models) {

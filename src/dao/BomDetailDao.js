@@ -50,6 +50,7 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
     Models.BomDetail.findAll({
         include: {
             model: Models.ItemDetail,
+            as: 'itemDetails',
             attributes: ['itemId', 'followUpDate', 'status'],
             where: {
                 status: reqParam.status
@@ -59,7 +60,8 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
         offset: constant.BOMDETAILPAGECOUNT * (reqParam.pageIndex - 1),
         order: [[
             {
-                model: Models.ItemDetail
+                model: Models.ItemDetail,
+                as: 'itemDetails',
             }, 
             'follow_up_date'
         ]],
@@ -84,13 +86,15 @@ BomDetailDao.getBomById = function(reqParam, getBomByIdCB) {
         attributes: ['bomId', 'soldToAcc', 'soldToAccName', 'orderNumber', 'customerPOId'],
         include: {
             model: Models.ItemDetail,
+            as: 'itemDetails',
             where: {
                 status: constant.HOLDSTATUS
             }
         },
         order: [[
             {
-                model: Models.ItemDetail
+                model: Models.ItemDetail,
+                as: 'itemDetails'
             }, 
             'follow_up_date'
         ]],

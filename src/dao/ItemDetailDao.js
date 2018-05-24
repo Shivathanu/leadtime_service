@@ -9,7 +9,7 @@ var ItemDetailDao = {};
  * @param {Object} createdLineItemCB
  */
 ItemDetailDao.createdLineItem = function(reqParam, createdLineItemCB) {
-    Models.ItemDetail.create(reqParam).then(function(lineItem){
+    Models.ItemDetail.create(reqParam).then(function(lineItem) {
         return createdLineItemCB(null, lineItem);
     }, function(createError) {
         return createdLineItemCB(createError);

@@ -15,8 +15,16 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             field: 'email_id'
         },
+        createdAt: {
+            type: DataTypes.DATE,
+            field: 'created_at'
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            field: 'updated_at'
+        }
     }, {
-        underscored: true,
+        timeStamps: true,
         freezeTableName: true,    
         tableName: 'lta_user'
     });

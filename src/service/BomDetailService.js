@@ -18,7 +18,7 @@ var separateBom = function(reqParam, bomDetailList, separateBomCB) {
     } 
     var today = new Date();
     var groupedLineItems = _.map(bomDetailList, function(bom) {
-        if(_.some(bom.ItemDetails, function(lineItem) { 
+        if(_.some(bom.itemDetails, function(lineItem) { 
             return new Date(lineItem.followUpDate) <= today;
         })) {           
             return _.extend(bom, {'groupType': 'today'});
@@ -71,25 +71,24 @@ var countLineItem = function(reqParam, bomDetailList, countLineItemCB) {
     if(reqParam.status === constant.HOLDSTATUS) {
         var today = new Date();            
         _.forEach(bomDetailList.today, function(bom) {
-            bom.dataValues.totalLineItems = bom.ItemDetails.length;
-            bom.dataValues.lineItemToFollowUp = _.filter(bom.ItemDetails, function(lineItem) {
+            bom.dataValues.totalLineItems = bom.itemDetails.length;
+            bom.dataValues.lineItemToFollowUp = _.filter(bom.itemDetails, function(lineItem) {
                 return (new Date(lineItem.followUpDate) <= today);
             }).length;
-            delete bom.dataValues.ItemDetails;
-            // _.omit(bom.dataValues, ['ItemDetails']);
+            delete bom.dataValues.itemDetails;
         });
         _.forEach(bomDetailList.other, function(bom) {
-            bom.dataValues.totalLineItems = bom.ItemDetails.length;
-            bom.dataValues.lineItemToFollowUp = _.filter(bom.ItemDetails, function(lineItem) {
+            bom.dataValues.totalLineItems = bom.itemDetails.length;
+            bom.dataValues.lineItemToFollowUp = _.filter(bom.itemDetails, function(lineItem) {
                 return (new Date(lineItem.followUpDate) <= 
-                    new Date(bom.ItemDetails[0].followUpDate));
+                    new Date(bom.itemDetails[0].followUpDate));
             }).length;
-            delete bom.dataValues.ItemDetails;
+            delete bom.dataValues.itemDetails;
         });
     } else {
         _.forEach(bomDetailList, function(bom) {
-            bom.dataValues.totalLineItems = bom.ItemDetails.length;
-            delete bom.dataValues.ItemDetails;
+            bom.dataValues.totalLineItems = bom.itemDetails.length;
+            delete bom.dataValues.itemDetails;
         });
     }
     return countLineItemCB(null, bomDetailList);
@@ -128,8 +127,8 @@ BomDetailService.getBomById = function(reqParam, getBomByIdCB) {
         if(getError) {
             return getBomByIdCB(getError);
         }
-        bom.dataValues.totalLineItems = bom.ItemDetails.length;
-        bom.dataValues.lineItemToFollowUp = _.filter(bom.ItemDetails, function(lineItem) {
+        bom.dataValues.totalLineItems = bom.itemDetails.length;
+        bom.dataValues.lineItemToFollowUp = _.filter(bom.itemDetails, function(lineItem) {
             return (new Date(lineItem.followUpDate) <= today);
         }).length;
         return getBomByIdCB(null, bom);
