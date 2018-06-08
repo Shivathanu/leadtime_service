@@ -9,48 +9,38 @@ module.exports = {
                 allowNull: false
             },
             userId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(50),
                 field: 'user_id',
                 unique: true,
                 allowNull: false
             },
             firstName: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(20),
                 field: 'first_name',
                 allowNull: false
             },
             middleName: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(20),
                 field: 'middle_name'
             },
             lastName: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(20),
                 field: 'last_name'
             },
             fullName: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(60),
                 field: 'full_name',
                 allowNull: false                
             },
             emailId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(50),
                 field: 'email_id',
-                allowNull: false
-            },
-            roleId: {
-                type: Sequelize.STRING,
-                field: 'role_id',
                 allowNull: false
             },
             createdAt: {
                 type: Sequelize.DATE,
                 field: 'created_at',
                 allowNull: false
-            },
-            updatedAt: {
-                type: Sequelize.DATE,
-                allowNull: false,
-                field: 'updated_at'
             }
         });
     },

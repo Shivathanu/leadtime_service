@@ -9,37 +9,31 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             bomId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(30),
                 field: 'bom_id',
-                allowNull: false,
-                references: {
-                    model: {
-                        tableName: 'lta_bom_detail',
-                    },
-                    key: 'bom_id'
-                }
+                allowNull: false
             },
             itemId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(6),
                 field: 'item_id',
                 allowNull: false
             },
             productId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(50),
                 field: 'product_id',
-                allowNull: false,
+                allowNull: false
             },
             productName: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(50),
                 field: 'product_name',
                 allowNull: false
             },
             description: {
-                type: Sequelize.STRING,
-                field: 'descripion'
+                type: Sequelize.STRING(50),
+                field: 'description'
             },
             designation: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(50),
                 field: 'designation'
             },
             quantity: {
@@ -50,12 +44,12 @@ module.exports = {
             holdDate: {
                 type: Sequelize.DATE,
                 field: 'hold_date',
-                allowNull: false
+                allowNull: true
             },
             prevLeadTime: {
                 type: Sequelize.INTEGER,
                 field: 'previous_lead_time',
-                allowNull: false
+                allowNull: true
             },
             currentLeadTime: {
                 type: Sequelize.INTEGER,
@@ -65,37 +59,37 @@ module.exports = {
             releaseDate: {
                 type: Sequelize.DATE,
                 field: 'release_date',
-                allowNull: false
+                allowNull: true
             },            
             followUpDate: {
                 type: Sequelize.DATE,
                 field: 'follow_up_date',
-                allowNull: false
+                allowNull: true
             },
             shippingAddress: {
                 type: Sequelize.TEXT,
                 field: 'shipping_address_detail',
-                allowNull: false
+                allowNull: true
             },
             status: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(20),
                 field: 'status',
                 allowNull: false
             },
             itemCreatedAt: {
                 type: Sequelize.DATE,
                 field: 'src_created_at',
-                allowNull: 'false'
+                allowNull: false
+            },
+            shipDate: {
+                type: Sequelize.DATE,
+                field: 'ship_date',
+                allowNull: true
             },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 field: 'created_at'
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-                field: 'updated_at'
             }
         });
     },

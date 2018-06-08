@@ -9,24 +9,18 @@ module.exports = {
                 primaryKey: true
             },
             bomId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(30),
                 unique: true,
                 allowNull: false,
                 field: 'bom_id'
             },
             createdBy: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(50),
                 allowNull: false,
-                field: 'created_by',
-                references: {
-                    model: {
-                        tableName: 'lta_user',
-                    },
-                    key: 'user_id'
-                }
+                field: 'created_by'
             },
             createdByName: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(200),
                 allowNull: false,
                 field: 'created_by_name'
             },
@@ -36,42 +30,36 @@ module.exports = {
                 field: 'bom_created_date'
             },
             soldToAcc: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(10),
                 field: 'sold_to_acc'
             },
             soldToAccName: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(135),
                 field: 'sold_to_acc_name',
                 allowNull: false
             },
             orderNumber: {
-                type: Sequelize.STRING(35),
+                type: Sequelize.STRING,
                 field: 'order_number',
                 allowNull: false
             },
             customerPOId: {
-                type: Sequelize.STRING(35),
+                type: Sequelize.STRING,
                 field: 'customer_purchase_number',
                 allowNull: false
             },
             endUserId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(30),
                 field: 'end_user_id',
-                allowNull: false,
-                references: {
-                    model: {
-                        tableName: 'lta_end_user'
-                    },
-                    key: 'end_user_id'
-                }
+                allowNull: true
             },  
             endUserName: {
                 type: Sequelize.STRING(80),
                 field: 'end_user_name',
-                allowNull: false
+                allowNull: true
             },
             status: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(10),
                 field: 'status',
                 allowNull: false
             },
@@ -79,11 +67,6 @@ module.exports = {
                 type: Sequelize.DATE,
                 allowNull: false,
                 field: 'created_at'
-            },
-            updatedAt: {
-                type: Sequelize.DATE,
-                allowNull: false,
-                field: 'updated_at'
             }
         });
     },
