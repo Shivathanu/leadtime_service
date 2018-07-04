@@ -25,12 +25,15 @@ module.exports = function(sequelize, DataTypes) {
         },
         address: {
             type: DataTypes.TEXT,
-            field: 'address',
+            field: 'address'
         },
         releaseConfirmDate: {
             type: DataTypes.DATE,
-            field: 'release_confirm_date',
-            allowNull: false
+            field: 'release_confirm_date'
+        },
+        followUpDate: {
+            type: DataTypes.DATE,
+            field: 'follow_up_date'
         },
         createdAt: {
             type: DataTypes.DATE,

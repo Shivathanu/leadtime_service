@@ -50,8 +50,8 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
                 status: reqParam.status
             }
         }, {
-            model: Models.EndUser,
-            as: 'endUser'
+            model: Models.ContactUser,
+            as: 'contactUser'
         }],
         limit: constant.BOMDETAILPAGECOUNT,
         offset: constant.BOMDETAILPAGECOUNT * (reqParam.pageIndex - 1),
@@ -81,13 +81,17 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
 BomDetailDao.getBomById = function(reqParam, getBomByIdCB) {
     Models.BomDetail.find({
         attributes: ['bomId', 'soldToAcc', 'soldToAccName', 'orderNumber', 'customerPOId'],
-        include: {
+        include: [{
             model: Models.ItemDetail,
             as: 'itemDetails',
             where: {
                 status: constant.HOLDSTATUS
             }
-        },
+        }, {
+            model: Models.ContactUser,
+            as: 'contactUser',
+            attributes: ['name', 'emailId', 'address', 'homePhoneNumber']
+        }],
         order: [[
             {
                 model: Models.ItemDetail,

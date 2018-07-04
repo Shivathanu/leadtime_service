@@ -45,23 +45,27 @@ module.exports = {
             },
             customerPOId: {
                 type: Sequelize.STRING,
-                field: 'customer_purchase_number',
-                allowNull: false
+                field: 'customer_purchase_number'
             },
-            endUserId: {
-                type: Sequelize.STRING(30),
-                field: 'end_user_id',
-                allowNull: true
+            contactUserId: {
+                type: Sequelize.STRING(50),
+                field: 'contact_user_id'
             },  
-            endUserName: {
+            contactUserName: {
                 type: Sequelize.STRING(80),
-                field: 'end_user_name',
-                allowNull: true
+                field: 'contact_user_name'
             },
             status: {
                 type: Sequelize.STRING(10),
-                field: 'status',
-                allowNull: false
+                field: 'status'
+            },
+            bomUpdatedDate: {
+                type: Sequelize.DATE,
+                field: 'bom_updated_date'
+            },
+            bomCreatedAt: {
+                type: Sequelize.DATE,
+                field: 'src_created_at'
             },
             createdAt: {
                 type: Sequelize.DATE,

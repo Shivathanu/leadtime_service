@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
         productId: {
             type: DataTypes.STRING(50),
             field: 'product_id',
-            allowNull: false,
+            allowNull: false
         },
         productName: {
             type: DataTypes.STRING(50),
@@ -38,13 +38,11 @@ module.exports = function(sequelize, DataTypes) {
         },
         holdDate: {
             type: DataTypes.DATE,
-            field: 'hold_date',
-            allowNull: true
+            field: 'hold_date'
         },
         prevLeadTime: {
             type: DataTypes.INTEGER,
-            field: 'previous_lead_time',
-            allowNull: true
+            field: 'previous_lead_time'
         },
         currentLeadTime: {
             type: DataTypes.INTEGER,
@@ -53,21 +51,18 @@ module.exports = function(sequelize, DataTypes) {
         },
         releaseDate: {
             type: DataTypes.DATE,
-            field: 'release_date',
-            allowNull: true
+            field: 'release_date'
         },            
         followUpDate: {
             type: DataTypes.DATE,
-            field: 'follow_up_date',
-            allowNull: true
+            field: 'follow_up_date'
         },
         shippingAddress: {
             type: DataTypes.TEXT,
-            field: 'shipping_address_detail',
-            allowNull: true
+            field: 'shipping_address_detail'
         },
         status: {
-            type: DataTypes.STRING(20),
+            type: DataTypes.STRING,
             field: 'status',
             allowNull: false
         },
@@ -78,8 +73,15 @@ module.exports = function(sequelize, DataTypes) {
         },
         shipDate: {
             type: DataTypes.DATE,
-            field: 'ship_date',
-            allowNull: true
+            field: 'ship_date'
+        },
+        bomUpdatedDate: {
+            type: DataTypes.DATE,
+            field: 'bom_updated_date'
+        },
+        parentId: {
+            type: DataTypes.STRING(6),
+            field: 'parent_id'
         },
         createdAt: {
             allowNull: false,

@@ -3,14 +3,15 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.createTable('lta_last_process_date', {
             id: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
-                primaryKey: true,
-                type: Sequelize.INTEGER
+                primaryKey: true
             },
             jobName: {
                 type: Sequelize.STRING(30),
-                field: 'job_name'
+                field: 'job_name',
+                allowNull: false
             },
             lastProcessTime: {
                 type: Sequelize.DATE,

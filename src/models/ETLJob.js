@@ -4,15 +4,16 @@
 module.exports = function(sequelize, DataTypes) {
     var ETLJob = sequelize.define('ETLJob', {
         jobName: {
-            type: DataTypes.STRING,
-            field: 'job_name'
+            type: DataTypes.STRING(30),
+            field: 'job_name',
+            allowNull: false
         },
         lastProcessTime: {
             type: DataTypes.DATE,
             field: 'last_process_time'
         },
         status: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(20),
             field: 'job_status'
         }
     }, {

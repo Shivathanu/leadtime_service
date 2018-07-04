@@ -3,15 +3,15 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.createTable('lta_transaction_log', {
             id: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
-                primaryKey: true,
-                type: Sequelize.INTEGER
+                primaryKey: true
             },
             userId: {
-              type: Sequelize.STRING(50),
-              field: 'user_id',
-              allowNull: false
+                type: Sequelize.STRING(50),
+                field: 'user_id',
+                allowNull: false
             },
             bomId: {
                 type: Sequelize.STRING(30),
@@ -34,8 +34,11 @@ module.exports = {
             },
             releaseConfirmDate: {
                 type: Sequelize.DATE,
-                field: 'release_confirm_date',
-                allowNull: false
+                field: 'release_confirm_date'
+            },
+            followUpDate: {
+                type: Sequelize.DATE,
+                field: 'follow_up_date'
             },
             createdAt: {
                 type: Sequelize.DATE,

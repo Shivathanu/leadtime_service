@@ -3,10 +3,10 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.createTable('lta_note', {
             id: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
-                primaryKey: true,
-                type: Sequelize.INTEGER
+                primaryKey: true
             },
             userId: {
                 type: Sequelize.STRING(50),
@@ -20,7 +20,8 @@ module.exports = {
             },
             content: {
                 type: Sequelize.TEXT,
-                field: 'content'
+                field: 'content',
+                allowNull: false
             },
             createdAt: {
                 type: Sequelize.DATE,

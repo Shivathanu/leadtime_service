@@ -1,43 +1,37 @@
 /**
- * EndUser Model
+ * ContactUser Model
  */
 module.exports = function(sequelize, DataTypes) {
-    var EndUser = sequelize.define('EndUser', {
-        endUserId: {
+    var ContactUser = sequelize.define('ContactUser', {
+        contactUserId: {
             type: DataTypes.STRING(50),
             unique: true,
-            field: 'end_user_id',
+            field: 'contact_user_id',
             allowNull: false
         },
         name: {
-            type: DataTypes.STRING(20),
-            field: 'name',
-            allowNull: false
+            type: DataTypes.STRING(80),
+            field: 'name'
         },
         address: {
             type: DataTypes.TEXT,
-            field: 'address',
-            allowNull: false
+            field: 'address'
         },
         city: {
             type: DataTypes.STRING(40),
-            field: 'city',
-            allowNull: false
+            field: 'city'
         },
         zip: {
             type: DataTypes.STRING(10),
-            field: 'zip',
-            allowNull: false
+            field: 'zip'
         },
         state: {
             type: DataTypes.STRING(3),
-            field: 'state',
-            allowNull: false
+            field: 'state'
         },
         country: {
             type: DataTypes.STRING(3),
-            field: 'country',
-            allowNull: false
+            field: 'country'
         },
         type: {
             type: DataTypes.STRING(20),
@@ -45,8 +39,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         emailId: {
             type: DataTypes.STRING(241),
-            field: 'email_id',
-            allowNull: false
+            field: 'email_id'
         },
         homePhoneNumber: {
             type: DataTypes.STRING(30),
@@ -54,8 +47,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         mobileNumber: {
             type: DataTypes.STRING(30),
-            field: 'contact_mobile',
-            allowNull: false
+            field: 'contact_mobile'
         },
         officePhoneNumber: {
             type: DataTypes.STRING(30),
@@ -69,14 +61,14 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: false,
         freezeTableName: true,
-        tableName: 'lta_end_user'
+        tableName: 'lta_contact_user'
     });
-    EndUser.associate = function(models) {
-        EndUser.hasMany(models.BomDetail, {
-            foreignKey: 'endUserId',
-            sourceKey: 'end_user_id',
+    ContactUser.associate = function(models) {
+        ContactUser.hasMany(models.BomDetail, {
+            foreignKey: 'contactUserId',
+            sourceKey: 'contact_user_id',
             onDelete: 'cascade'
         });
     };
-    return EndUser;
+    return ContactUser;
 };

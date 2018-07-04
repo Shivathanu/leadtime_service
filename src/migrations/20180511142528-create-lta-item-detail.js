@@ -3,10 +3,10 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.createTable('lta_item_detail', {
             id: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
-                primaryKey: true,
-                type: Sequelize.INTEGER
+                primaryKey: true
             },
             bomId: {
                 type: Sequelize.STRING(30),
@@ -43,13 +43,11 @@ module.exports = {
             },
             holdDate: {
                 type: Sequelize.DATE,
-                field: 'hold_date',
-                allowNull: true
+                field: 'hold_date'
             },
             prevLeadTime: {
                 type: Sequelize.INTEGER,
-                field: 'previous_lead_time',
-                allowNull: true
+                field: 'previous_lead_time'
             },
             currentLeadTime: {
                 type: Sequelize.INTEGER,
@@ -58,21 +56,18 @@ module.exports = {
             },
             releaseDate: {
                 type: Sequelize.DATE,
-                field: 'release_date',
-                allowNull: true
+                field: 'release_date'
             },            
             followUpDate: {
                 type: Sequelize.DATE,
-                field: 'follow_up_date',
-                allowNull: true
+                field: 'follow_up_date'
             },
             shippingAddress: {
                 type: Sequelize.TEXT,
-                field: 'shipping_address_detail',
-                allowNull: true
+                field: 'shipping_address_detail'
             },
             status: {
-                type: Sequelize.STRING(20),
+                type: Sequelize.STRING,
                 field: 'status',
                 allowNull: false
             },
@@ -83,8 +78,15 @@ module.exports = {
             },
             shipDate: {
                 type: Sequelize.DATE,
-                field: 'ship_date',
-                allowNull: true
+                field: 'ship_date'
+            },
+            bomUpdatedDate: {
+                type: Sequelize.DATE,
+                field: 'bom_updated_date'
+            },
+            parentId: {
+                type: Sequelize.STRING(6),
+                field: 'parent_id'
             },
             createdAt: {
                 allowNull: false,

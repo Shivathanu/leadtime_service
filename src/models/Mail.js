@@ -8,9 +8,9 @@ module.exports = function(sequelize, DataTypes) {
             field: 'user_id',
             allowNull: false
         },
-        endUserMailId: {
+        contactUserMailId: {
             type: DataTypes.STRING(50),
-            field: 'end_user_mail_id',
+            field: 'contact_user_mail_id',
             allowNull: false
         },
         userMailId: {
@@ -20,7 +20,8 @@ module.exports = function(sequelize, DataTypes) {
         },
         content: {
             type: DataTypes.TEXT,
-            field: 'content'
+            field: 'content',
+            allowNull: false
         },
         bomId: {
             type: DataTypes.STRING(30),
@@ -29,13 +30,12 @@ module.exports = function(sequelize, DataTypes) {
         },
         status: {
             type: DataTypes.STRING(10),
-            field: 'status',
-            allowNull: false
+            field: 'status'
         },
         createdAt: {
             type: DataTypes.DATE,
             field: 'created_at',
-            allowNull: false,
+            allowNull: false
         }
     }, {
         timestamps: false,

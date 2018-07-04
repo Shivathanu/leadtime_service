@@ -28,7 +28,7 @@ ItemDetailDao.getLineItemByBomId = function(reqParam, getLineItemByBomIdCB) {
             status: constant.HOLDSTATUS,
             bomId: reqParam.bomId
         }
-    }).then(function(lineItemList){
+    }).then(function(lineItemList) {
         return getLineItemByBomIdCB(null, lineItemList);
     }, function(getError){
         return getLineItemByBomIdCB(getError);

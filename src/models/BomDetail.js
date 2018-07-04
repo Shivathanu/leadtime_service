@@ -40,23 +40,27 @@ module.exports = function(sequelize, DataTypes) {
         },
         customerPOId: {
             type: DataTypes.STRING,
-            field: 'customer_purchase_number',
-            allowNull: false
+            field: 'customer_purchase_number'
         },
-        endUserId: {
-            type: DataTypes.STRING(30),
-            field: 'end_user_id',
-            allowNull: true
+        contactUserId: {
+            type: DataTypes.STRING(50),
+            field: 'contact_user_id'
         },  
-        endUserName: {
+        contactUserName: {
             type: DataTypes.STRING(80),
-            field: 'end_user_name',
-            allowNull: true
+            field: 'contact_user_name'
         },
         status: {
             type: DataTypes.STRING(10),
-            field: 'status',
-            allowNull: false
+            field: 'status'
+        },
+        bomUpdatedDate: {
+            type: DataTypes.DATE,
+            field: 'bom_updated_date'
+        },
+        bomCreatedAt: {
+            type: DataTypes.DATE,
+            field: 'src_created_at'
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -74,10 +78,10 @@ module.exports = function(sequelize, DataTypes) {
             targetKey: 'userId',
             onDelete: 'cascade'
         });
-        BomDetail.belongsTo(models.EndUser, {
-            as: 'endUser',
-            foreignKey: 'endUserId',
-            targetKey: 'endUserId',
+        BomDetail.belongsTo(models.ContactUser, {
+            as: 'contactUser',
+            foreignKey: 'contactUserId',
+            targetKey: 'contactUserId',
             onDelete: 'cascade'
         });
         BomDetail.hasMany(models.ItemDetail, {

@@ -1,48 +1,42 @@
 'use strict';
 module.exports = {
     up: function(queryInterface, Sequelize) {
-        return queryInterface.createTable('lta_end_user', {
+        return queryInterface.createTable('lta_contact_user', {
             id: {
                 type: Sequelize.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
                 allowNull: false
             },
-            endUserId: {
+            contactUserId: {
                 type: Sequelize.STRING(50),
                 unique: true,
-                field: 'end_user_id',
+                field: 'contact_user_id',
                 allowNull: false
             },
             name: {
-                type: Sequelize.STRING(20),
-                field: 'name',
-                allowNull: false
+                type: Sequelize.STRING(80),
+                field: 'name'
             },
             address: {
                 type: Sequelize.TEXT,
-                field: 'address',
-                allowNull: false
+                field: 'address'
             },
             city: {
                 type: Sequelize.STRING(40),
-                field: 'city',
-                allowNull: false
+                field: 'city'
             },
             zip: {
                 type: Sequelize.STRING(10),
-                field: 'zip',
-                allowNull: false
+                field: 'zip'
             },
             state: {
                 type: Sequelize.STRING(3),
-                field: 'state',
-                allowNull: false
+                field: 'state'
             },
             country: {
                 type: Sequelize.STRING(3),
-                field: 'country',
-                allowNull: false
+                field: 'country'
             },
             type: {
                 type: Sequelize.STRING(20),
@@ -50,8 +44,7 @@ module.exports = {
             },
             emailId: {
                 type: Sequelize.STRING(241),
-                field: 'email_id',
-                allowNull: false
+                field: 'email_id'
             },
             homePhoneNumber: {
                 type: Sequelize.STRING(30),
@@ -59,8 +52,7 @@ module.exports = {
             },
             mobileNumber: {
                 type: Sequelize.STRING(30),
-                field: 'contact_mobile',
-                allowNull: false
+                field: 'contact_mobile'
             },
             officePhoneNumber: {
                 type: Sequelize.STRING(30),
@@ -74,6 +66,6 @@ module.exports = {
         });
     },
     down: function(queryInterface, Sequelize) {
-        return queryInterface.dropTable('lta_end_user');
+        return queryInterface.dropTable('lta_contact_user');
     }
 };

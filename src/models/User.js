@@ -11,8 +11,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         firstName: {
             type: DataTypes.STRING(20),
-            field: 'first_name',
-            allowNull: false
+            field: 'first_name'
         },
         middleName: {
             type: DataTypes.STRING(20),
@@ -24,13 +23,11 @@ module.exports = function(sequelize, DataTypes) {
         },
         fullName: {
             type: DataTypes.STRING(60),
-            field: 'full_name',
-            allowNull: false
+            field: 'full_name'
         },
         emailId: {
             type: DataTypes.STRING(50),
-            field: 'email_id',
-            allowNull: false
+            field: 'email_id'
         },
         createdAt: {
             type: DataTypes.DATE,
