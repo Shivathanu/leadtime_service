@@ -1,6 +1,7 @@
 var express = require('express');
 var BomDetailController = express.Router();
 var bomDetailService = require('../service/BomDetailService');
+var logger = require('../../config/log');
 
 /**
  * Controller method to create new bom.
@@ -11,7 +12,10 @@ var bomDetailService = require('../service/BomDetailService');
 BomDetailController.post('/create', function(request, response) {
     bomDetailService.createBom(request.body, function(createError, createdBom) {
         if(createError) {
-            console.log('Error occured while creating new bom, Actual Error:',createError);
+            logger.error('Error occured while creating new bom', {
+                error: createError,
+                params: request.body
+            });
             response.status(500).send(createError);
         }
         response.send(createdBom); 
@@ -27,7 +31,10 @@ BomDetailController.post('/create', function(request, response) {
 BomDetailController.get('/count', function(request, response){
     bomDetailService.getPageCount(request.body, function (getError, pageCount) {
         if(getError) {
-            console.log('Error occured while getting bom details page count', getError);
+            logger.error('Error occured while getting bom details page count', {
+                error: getError,
+                params: request.params
+            });
             response.status(500).send(getError);
         }
         response.send(pageCount);
@@ -43,7 +50,10 @@ BomDetailController.get('/count', function(request, response){
 BomDetailController.get('/all/:status/:pageIndex', function(request, response) {
     bomDetailService.getAllBomDetail(request.params, function(getError, bomDetailList) {
         if(getError) {
-            console.log('Error occured while getting all bom details', getError);
+            logger.error('Error occured while getting all bom details', {
+                error: getError,
+                params: request.params
+            });
             response.status(500).send(getError);
         }
         response.send(bomDetailList);
@@ -59,7 +69,10 @@ BomDetailController.get('/all/:status/:pageIndex', function(request, response) {
 BomDetailController.get('/bom-info/:bomId', function(request, response) {
     bomDetailService.getBomById(request.params, function(getError, bom) {
         if(getError) {
-            console.log('Error while getting bom by id', getError);
+            logger.error('Error while getting bom by id', {
+                error: getError,
+                params: request.params
+            });
             response.status(500).send(getError);
         }
         response.send(bom);

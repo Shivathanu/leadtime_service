@@ -1,6 +1,7 @@
 var express = require('express');
 var UserController = express.Router();
 var userService = require('../service/UserService');
+var logger = require('../../config/log');
 
 /**
  * Controller to match router "/api/user/all"
@@ -11,7 +12,10 @@ var userService = require('../service/UserService');
 UserController.get('/all', function(request, response) {
     userService.getAllUsers(function(getError, users) {
         if (getError) {
-            console.error('Error while getting all users', getError);
+            logger.error('Error while getting all users', {
+                error: getError,
+                params: request.params
+            });
             response.status(500).send(getError);
         }
         response.send(users);
@@ -27,7 +31,10 @@ UserController.get('/all', function(request, response) {
 UserController.post('/save', function(request, response) {
     userService.saveUser(request.body, function(createError, user) {
         if (createError) {
-            console.error('Error while creating a user', createError);
+            logger.error('Error while creating a user', {
+                error: createError,
+                params: request.body
+            });
             response.status(500).send(createError);
         }
         response.send(user);

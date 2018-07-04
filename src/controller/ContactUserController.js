@@ -1,6 +1,7 @@
 var express = require('express');
 var ContactUserController = express.Router();
 var contactUserService = require('../service/ContactUserService');
+var logger = require('../../config/log');
 
 /**
  * Controller method to create new contact user
@@ -11,7 +12,10 @@ var contactUserService = require('../service/ContactUserService');
 ContactUserController.post('/create', function(request, response) {
     contactUserService.create(request.body, function(createError, contactUser) {
         if(createError) {
-            console.log('Error occured while creating new contact user', createError);
+            logger.error('Error occured while creating new contact user', {
+                error: createError,
+                params: request.body
+            });
             response.status(500).send(createError);
         }
         response.send(contactUser);
@@ -27,7 +31,10 @@ ContactUserController.post('/create', function(request, response) {
 ContactUserController.get('/all', function(request, response) {
     contactUserService.getContactUserList(function(getError, userList) {
         if(getError) {
-            console.log('Error occured while getting contact users list', getError);
+            logger.error('Error occured while getting contact users list', {
+                error: getError,
+                params: request.params
+            });
             response.status(500).send(getError);
         }
         response.send(userList);
