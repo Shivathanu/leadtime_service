@@ -1,0 +1,7 @@
+{
+    "apps" : [{
+        "name": "LeadtimeService",
+        "script": "npm",
+        "args": "run production"
+    }]
+}
