@@ -29,9 +29,9 @@
     },
     "production": {
         "database": "COMPAS_LT_ANALYSIS",
-        "username": "reports_read",
-        "password": "P@ssw0rd!",
-        "host": "localhost",
+        "username": "sa",
+        "password": "COMPAS11**",
+        "host": "10.0.1.193",
         "dialect": "mssql",
         "logging": false,
         "pool": {
