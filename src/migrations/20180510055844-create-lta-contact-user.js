@@ -9,33 +9,33 @@ module.exports = {
                 allowNull: false
             },
             contactUserId: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(10),
                 unique: true,
                 field: 'contact_user_id',
                 allowNull: false
             },
             name: {
-                type: Sequelize.STRING(80),
+                type: Sequelize.STRING(90),
                 field: 'name'
             },
             address: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
                 field: 'address'
             },
             city: {
-                type: Sequelize.STRING(40),
+                type: Sequelize.STRING(45),
                 field: 'city'
             },
             zip: {
-                type: Sequelize.STRING(10),
+                type: Sequelize.STRING(45),
                 field: 'zip'
             },
             state: {
-                type: Sequelize.STRING(3),
+                type: Sequelize.STRING(45),
                 field: 'state'
             },
             country: {
-                type: Sequelize.STRING(3),
+                type: Sequelize.STRING(45),
                 field: 'country'
             },
             type: {
@@ -43,19 +43,19 @@ module.exports = {
                 field: 'type'
             },
             emailId: {
-                type: Sequelize.STRING(241),
+                type: Sequelize.STRING(75),
                 field: 'email_id'
             },
             homePhoneNumber: {
-                type: Sequelize.STRING(30),
+                type: Sequelize.STRING(45),
                 field: 'contact_home'
             },
             mobileNumber: {
-                type: Sequelize.STRING(30),
+                type: Sequelize.STRING(45),
                 field: 'contact_mobile'
             },
             officePhoneNumber: {
-                type: Sequelize.STRING(30),
+                type: Sequelize.STRING(45),
                 field: 'contact_work'
             },
             createdAt: {

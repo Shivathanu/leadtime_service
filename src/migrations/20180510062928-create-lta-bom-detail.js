@@ -48,11 +48,11 @@ module.exports = {
                 field: 'customer_purchase_number'
             },
             contactUserId: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(10),
                 field: 'contact_user_id'
             },  
             contactUserName: {
-                type: Sequelize.STRING(80),
+                type: Sequelize.STRING(90),
                 field: 'contact_user_name'
             },
             status: {

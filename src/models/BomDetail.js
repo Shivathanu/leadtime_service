@@ -43,11 +43,11 @@ module.exports = function(sequelize, DataTypes) {
             field: 'customer_purchase_number'
         },
         contactUserId: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(10),
             field: 'contact_user_id'
         },  
         contactUserName: {
-            type: DataTypes.STRING(80),
+            type: DataTypes.STRING(90),
             field: 'contact_user_name'
         },
         status: {

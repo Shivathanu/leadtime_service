@@ -4,33 +4,33 @@
 module.exports = function(sequelize, DataTypes) {
     var ContactUser = sequelize.define('ContactUser', {
         contactUserId: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(10),
             unique: true,
             field: 'contact_user_id',
             allowNull: false
         },
         name: {
-            type: DataTypes.STRING(80),
+            type: DataTypes.STRING(90),
             field: 'name'
         },
         address: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             field: 'address'
         },
         city: {
-            type: DataTypes.STRING(40),
+            type: DataTypes.STRING(45),
             field: 'city'
         },
         zip: {
-            type: DataTypes.STRING(10),
+            type: DataTypes.STRING(45),
             field: 'zip'
         },
         state: {
-            type: DataTypes.STRING(3),
+            type: DataTypes.STRING(45),
             field: 'state'
         },
         country: {
-            type: DataTypes.STRING(3),
+            type: DataTypes.STRING(45),
             field: 'country'
         },
         type: {
@@ -38,19 +38,19 @@ module.exports = function(sequelize, DataTypes) {
             field: 'type'
         },
         emailId: {
-            type: DataTypes.STRING(241),
+            type: DataTypes.STRING(75),
             field: 'email_id'
         },
         homePhoneNumber: {
-            type: DataTypes.STRING(30),
+            type: DataTypes.STRING(45),
             field: 'contact_home'
         },
         mobileNumber: {
-            type: DataTypes.STRING(30),
+            type: DataTypes.STRING(45),
             field: 'contact_mobile'
         },
         officePhoneNumber: {
-            type: DataTypes.STRING(30),
+            type: DataTypes.STRING(45),
             field: 'contact_work'
         },
         createdAt: {
