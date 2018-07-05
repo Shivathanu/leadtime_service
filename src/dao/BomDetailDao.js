@@ -12,8 +12,11 @@ BomDetailDao.createBom = function(reqParam, createBomCB) {
     Models.BomDetail.create(reqParam).then(function(createdBom) {
         return createBomCB(null, createdBom);
     }, function(createError) {
-        return createBomCB(createError);
-    });    
+        return createBomCB({
+            error: createError.name,
+            message: createError.parent.message
+        });
+    });
 };
 
 /**
@@ -27,10 +30,13 @@ BomDetailDao.getPageCount = function(reqParam, getPageCountCB){
         where: {
             status: constant.HOLDSTATUS
         }
-        }).then(function(pageCount) {
-            return getPageCountCB(null, {count: pageCount});
-        }, function(getError) {
-            return getPageCountCB(getError);
+    }).then(function(pageCount) {
+        return getPageCountCB(null, {count: pageCount});
+    }, function(getError) {
+        return getPageCountCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
     });
 };
 
@@ -68,7 +74,10 @@ BomDetailDao.getAllBomDetail = function(reqParam, getAllBomDetailCB) {
     }).then(function(bomDetailList) {
         return getAllBomDetailCB(null, reqParam, bomDetailList);
     }, function(getError) {
-        return getAllBomDetailCB(getError);
+        return getAllBomDetailCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
     });
 };
 
@@ -106,7 +115,10 @@ BomDetailDao.getBomById = function(reqParam, getBomByIdCB) {
     }).then(function(bom) {
         return getBomByIdCB(null, bom);
     }, function(getError) {
-        return getBomByIdCB(getError);
+        return getBomByIdCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
     });
 };
 

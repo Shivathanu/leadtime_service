@@ -9,8 +9,11 @@ var UserDao = {};
 UserDao.findAllUsers = function(findUsersCB) {
     Models.User.findAll().then(function(users) {
         return findUsersCB(null, users);
-    }, function (findError) {
-        return findUsersCB(findError);
+    }, function(findError) {
+        return findUsersCB({
+            error: findError.name,
+            message: findError.parent.message
+        });
     });
 };
 
@@ -23,8 +26,11 @@ UserDao.findAllUsers = function(findUsersCB) {
 UserDao.createUser = function(reqParams, createUserCB) {
     Models.User.create(reqParams).then(function(user) {
         return createUserCB(null, user);
-    }, function (createError) {
-        return createUserCB(createError);
+    }, function(createError) {
+        return createUserCB({
+            error: createError.name,
+            message: createError.parent.message
+        });
     });
 };
 

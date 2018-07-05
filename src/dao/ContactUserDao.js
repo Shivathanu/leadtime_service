@@ -10,21 +10,27 @@ var ContactUserDao = {};
 ContactUserDao.create = function(reqParam, createCB) {
     Models.ContactUser.create(reqParam).then(function(createdUser) {
         return createCB(null, createdUser);
-    }, function(error) {
-        return createCB(error);
+    }, function(createError) {
+        return createCB({
+            error: createError.name,
+            message: createError.parent.message
+        });
     });
 };
 
 /**
  * Dao method to get all contact user list
  * 
- * @param {Funtion} getContactUserListCB
+ * @param {Function} getContactUserListCB
  */
 ContactUserDao.getContactUserList = function(getContactUserListCB) {
     Models.ContactUser.findAll().then(function(contactUserList) {
         return getContactUserListCB(null, contactUserList);
-    }, function(error) {
-        return getContactUserListCB(error);
+    }, function(getError) {
+        return getContactUserListCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
     }); 
 };
 
