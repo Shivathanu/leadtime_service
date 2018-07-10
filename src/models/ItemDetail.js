@@ -15,26 +15,23 @@ module.exports = function(sequelize, DataTypes) {
         },
         productId: {
             type: DataTypes.STRING(50),
-            field: 'product_id',
-            allowNull: false
+            field: 'product_id'
         },
         productName: {
             type: DataTypes.STRING(50),
-            field: 'product_name',
-            allowNull: false
+            field: 'product_name'
         },
         description: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(100),
             field: 'description'
         },
         designation: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(100),
             field: 'designation'
         },
         quantity: {
             type: DataTypes.INTEGER,
-            field: 'quantity',
-            allowNull: false
+            field: 'quantity'
         },
         holdDate: {
             type: DataTypes.DATE,
@@ -62,14 +59,12 @@ module.exports = function(sequelize, DataTypes) {
             field: 'shipping_address_detail'
         },
         status: {
-            type: DataTypes.STRING,
-            field: 'status',
-            allowNull: false
+            type: DataTypes.STRING(10),
+            field: 'status'
         },
         itemCreatedAt: {
             type: DataTypes.DATE,
-            field: 'src_created_at',
-            allowNull: false
+            field: 'src_created_at'
         },
         shipDate: {
             type: DataTypes.DATE,

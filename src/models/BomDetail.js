@@ -10,13 +10,11 @@ module.exports = function(sequelize, DataTypes) {
             field: 'bom_id'
         },
         createdBy: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
+            type: DataTypes.STRING(10),
             field: 'created_by'
         },
         createdByName: {
             type: DataTypes.STRING(200),
-            allowNull: false,
             field: 'created_by_name'
         },
         bomCreatedDate: {
@@ -34,12 +32,11 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         orderNumber: {
-            type: DataTypes.STRING,
-            field: 'order_number',
-            allowNull: false
+            type: DataTypes.STRING(10),
+            field: 'order_number'
         },
         customerPOId: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(35),
             field: 'customer_purchase_number'
         },
         contactUserId: {

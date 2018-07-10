@@ -15,13 +15,11 @@ module.exports = {
                 field: 'bom_id'
             },
             createdBy: {
-                type: Sequelize.STRING(50),
-                allowNull: false,
+                type: Sequelize.STRING(10),
                 field: 'created_by'
             },
             createdByName: {
                 type: Sequelize.STRING(200),
-                allowNull: false,
                 field: 'created_by_name'
             },
             bomCreatedDate: {
@@ -39,12 +37,11 @@ module.exports = {
                 allowNull: false
             },
             orderNumber: {
-                type: Sequelize.STRING,
-                field: 'order_number',
-                allowNull: false
+                type: Sequelize.STRING(10),
+                field: 'order_number'
             },
             customerPOId: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(35),
                 field: 'customer_purchase_number'
             },
             contactUserId: {
