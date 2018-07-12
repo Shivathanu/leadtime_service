@@ -15,19 +15,4 @@ UserService.getAllUsers = function(getUsersCB) {
     });
 };
 
-/**
- * Method to create a user
- * 
- * @param {Object} reqParams
- * @param {Function} createCB
- */
-UserService.saveUser = function(reqParams, createCB) {
-    userDao.createUser(reqParams, function(saveError, user) {
-        if (saveError) {
-            return createCB(saveError);
-        }
-        return createCB(null, user);
-    });
-};
-
 module.exports = UserService;

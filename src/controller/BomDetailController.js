@@ -4,51 +4,13 @@ var bomDetailService = require('../service/BomDetailService');
 var logger = require('../../config/log');
 
 /**
- * Controller method to create new bom.
- * 
- * @param {Object} request
- * @param {Object} response
- */
-BomDetailController.post('/create', function(request, response) {
-    bomDetailService.createBom(request.body, function(createError, createdBom) {
-        if(createError) {
-            logger.error('Error occured while creating new bom', {
-                error: createError,
-                params: request.body
-            });
-            response.status(500).send(createError);
-        }
-        response.send(createdBom); 
-    });
-});
-
-/**
- * Controller to get total page count
- * 
- * @param {Object} request
- * @param {Object} response
- */
-BomDetailController.get('/count', function(request, response){
-    bomDetailService.getPageCount(request.body, function (getError, pageCount) {
-        if(getError) {
-            logger.error('Error occured while getting bom details page count', {
-                error: getError,
-                params: request.params
-            });
-            response.status(500).send(getError);
-        }
-        response.send(pageCount);
-    });
-});
-
-/**
  * Controller method to get all bom details
  * 
  * @param {Object} request
  * @param {Object} response
  */
 BomDetailController.get('/all/:status/:pageIndex', function(request, response) {
-    bomDetailService.getAllBomDetail(request.params, function(getError, bomDetailList) {
+    bomDetailService.getBomDetailsByStatus(request.params, function(getError, bomDetailList) {
         if(getError) {
             logger.error('Error occured while getting all bom details', {
                 error: getError,
@@ -78,6 +40,5 @@ BomDetailController.get('/bom-info/:bomId', function(request, response) {
         response.send(bom);
     });
 });
-
 
 module.exports = BomDetailController;

@@ -2,33 +2,32 @@ var itemDetailDao = require('../dao/ItemDetailDao');
 var ItemDetailService = {};
 
 /**
- * Service to create new line item
- * 
+ * Service to get line items of particular bom
+ *
  * @param {Object} reqParam
- * @param {Function} createdLineItemCB
+ * @param {Function} getCountCB
  */
-ItemDetailService.createdLineItem = function(reqParam, createdLineItemCB) {
-    itemDetailDao.createdLineItem(reqParam, function(createError, lineItem) {
-        if(createError) {
-            return createdLineItemCB(createError);
-        }
-        return createdLineItemCB(null, lineItem);
+ItemDetailService.getLineItemCount = function(reqParam, getCountCB) {
+    itemDetailDao.getCountByBomId(reqParam, function(getError, lineItemList) {
+        if(getError) {
+            return getCountCB(getError);
+        }   
+        return getCountCB(null, lineItemList); 
     });
 };
 
 /**
- * Service to get line items of particular bom
- *
+ * Service to get all boms by Follow up date
+ * 
  * @param {Object} reqParam
- * @param {Function} getLineItemByBomIdCB
- *
+ * @param {Function} getBomsCB
  */
-ItemDetailService.getLineItemByBomId = function(reqParam, getLineItemByBomIdCB) {
-    itemDetailDao.getLineItemByBomId(reqParam, function(getError, lineItemList) {
+ItemDetailService.getBomsByDate = function(reqParam, getBomsCB) {
+    itemDetailDao.getBomsByFollowUpDate(reqParam, function(getError, bomList) {
         if(getError) {
-            return getLineItemByBomIdCB(getError);
+            return getBomsCB(getError);
         }   
-        return getLineItemByBomIdCB(null, lineItemList); 
+        return getBomsCB(null, bomList); 
     });
 };
 

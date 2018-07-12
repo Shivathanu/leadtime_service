@@ -22,23 +22,4 @@ UserController.get('/all', function(request, response) {
     });
 });
 
-/**
- * Controller to match router "/api/user/create"
- * 
- * @param {Object} request
- * @param {Object} response
- */
-UserController.post('/save', function(request, response) {
-    userService.saveUser(request.body, function(createError, user) {
-        if (createError) {
-            logger.error('Error while creating a user', {
-                error: createError,
-                params: request.body
-            });
-            response.status(500).send(createError);
-        }
-        response.send(user);
-    });
-});
-
 module.exports = UserController;

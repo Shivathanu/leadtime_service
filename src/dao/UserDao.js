@@ -17,21 +17,4 @@ UserDao.findAllUsers = function(findUsersCB) {
     });
 };
 
-/**
- * Method to create a user
- * 
- * @param {Object} reqParams
- * @param {Function} createUserCB
- */
-UserDao.createUser = function(reqParams, createUserCB) {
-    Models.User.create(reqParams).then(function(user) {
-        return createUserCB(null, user);
-    }, function(createError) {
-        return createUserCB({
-            error: createError.name,
-            message: createError.parent.message
-        });
-    });
-};
-
 module.exports = UserDao;

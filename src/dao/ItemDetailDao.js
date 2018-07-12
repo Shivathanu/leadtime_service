@@ -1,45 +1,59 @@
+var sequelize = require('sequelize');
 var Models = require('../models/index');
 var constant = require('../util/Constant.js');
 var ItemDetailDao = {};
 
 /**
- * Dao method to create new line item
+ * Dao method to get all line items by Follow up date
  * 
- * @param {Object} reqParam
- * @param {Object} createdLineItemCB
+ * @param {Object} reqParams
+ * @param {Function} getItemsCB
  */
-ItemDetailDao.createdLineItem = function(reqParam, createdLineItemCB) {
-    Models.ItemDetail.create(reqParam).then(function(lineItem) {
-        return createdLineItemCB(null, lineItem);
-    }, function(createError) {
-        return createdLineItemCB({
-            error: createError.name,
-            message: createError.parent.message
-        });
-    });
-};
-
-/**
- * Dao method to get all line items by bomid
- * 
- * @param {Object} reqParam
- * @param {Object} getLineItemByBomIdCB
- */
-ItemDetailDao.getLineItemByBomId = function(reqParam, getLineItemByBomIdCB) {
+ItemDetailDao.getBomsByFollowUpDate = function(reqParams, getItemsCB) {
     Models.ItemDetail.findAll({
+        attributes: [
+            'bomId',
+            [sequelize.fn('min', sequelize.col('follow_up_date')), 'followUpDate'],
+            [sequelize.fn('count', sequelize.col('bom_id')), 'followUpCount']
+        ],
+        limit: constant.BOMDETAILPAGECOUNT,
+        offset: constant.BOMDETAILPAGECOUNT * (reqParams.pageIndex - 1),
         where: {
-            status: constant.HOLDSTATUS,
-            bomId: reqParam.bomId
-        }
-    }).then(function(lineItemList) {
-        return getLineItemByBomIdCB(null, lineItemList);
+            status: reqParams.status
+        },
+        group: ['bom_id'],
+        order: [
+            [sequelize.fn('min', sequelize.col('follow_up_date'))]
+        ]
+    }).then(function(lineItems) {
+        return getItemsCB(null, lineItems);
     }, function(getError) {
-        return getLineItemByBomIdCB({
+        return getItemsCB({
             error: getError.name,
             message: getError.parent.message
         });
     });
 };
 
+/**
+ * Dao method to get count of line items by bom id
+ * 
+ * @param {String} bomId
+ * @param {Function} getItemsCB
+ */
+ItemDetailDao.getCountByBomId = function(bomId, getCountCB) {
+    Models.ItemDetail.count({
+        where: {
+            bomId: bomId
+        }
+    }).then(function(count) {
+        return getCountCB(null, count);
+    }, function(countErr) {
+        return getCountCB({
+            error: countErr.name,
+            message: countErr.parent.message
+        });
+    });
+};
 
 module.exports = ItemDetailDao;
