@@ -31,4 +31,19 @@ ItemDetailService.getBomsByDate = function(reqParam, getBomsCB) {
     });
 };
 
+/**
+ * Service to get Hold Line Items for a Bom
+ * 
+ * @param {String} bomId
+ * @param {Function} getItemsCB
+ */
+ItemDetailService.getHoldItemsByBomId = function(bomId, getItemsCB) {
+    itemDetailDao.getHoldItemsByBomId(bomId, function(getError, bomList) {
+        if(getError) {
+            return getItemsCB(getError);
+        }   
+        return getItemsCB(null, bomList); 
+    });
+};
+
 module.exports = ItemDetailService;

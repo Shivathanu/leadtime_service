@@ -1,6 +1,5 @@
 var Models = require('../models/index');
 var BomDetailDao = {};
-var constant = require('../util/Constant.js');
 
 /**
  * Dao method to get bom and corresponding line-item using id
@@ -26,33 +25,15 @@ BomDetailDao.getBomInfoById = function(bomId, getBomCB) {
 /**
  * Dao method to get bom details by bom id
  * 
- * @param {Object} reqParam
+ * @param {String} bomId
  * @param {Function} getBomCB
  */
-BomDetailDao.getBomDetailsById = function(reqParam, getBomCB) {
+BomDetailDao.getBomDetailsById = function(bomId, getBomCB) {
     Models.BomDetail.find({
-        attributes: ['bomId', 'soldToAcc', 'soldToAccName', 'orderNumber', 'customerPOId'],
-        include: [{
-            model: Models.ItemDetail,
-            as: 'itemDetails',
-            where: {
-                status: constant.HOLDSTATUS
-            }
-        }, {
-            model: Models.ContactUser,
-            as: 'contactUser',
-            attributes: ['name', 'emailId', 'address', 'homePhoneNumber']
-        }],
-        order: [[
-            {
-                model: Models.ItemDetail,
-                as: 'itemDetails'
-            }, 
-            'follow_up_date'
-        ]],
+        attributes: ['bomId', 'soldToAcc', 'soldToAccName', 'orderNumber',
+            'customerPOId', 'contactUserId'],
         where: {
-            bomId: reqParam.bomId,
-            status: constant.HOLDSTATUS
+            bomId: bomId
         }
     }).then(function(bom) {
         return getBomCB(null, bom);

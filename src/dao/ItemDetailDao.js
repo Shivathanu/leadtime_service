@@ -56,4 +56,26 @@ ItemDetailDao.getCountByBomId = function(bomId, getCountCB) {
     });
 };
 
+/**
+ * Dao to get Hold Item details for a Bom
+ * 
+ * @param {String} bomId
+ * @param {Function} getItemsCB
+ */
+ItemDetailDao.getHoldItemsByBomId = function(bomId, getItemsCB) {
+    Models.ItemDetail.findAll({
+        where: {
+            bomId: bomId,
+            status: constant.HOLDSTATUS
+        }
+    }).then(function(lineItems) {
+        return getItemsCB(null, lineItems);
+    }, function(getError) {
+        return getItemsCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
+    });
+};
+
 module.exports = ItemDetailDao;
