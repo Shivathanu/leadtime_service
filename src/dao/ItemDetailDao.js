@@ -7,22 +7,28 @@ var Op = sequelize.Op;
 /**
  * Dao method to get all Boms by status
  * 
- * @param {String} status
+ * @param {Object} reqParams
  * @param {Function} getBomsCB
  */
-ItemDetailDao.getAllBomsByStatus = function(status, getBomsCB) {
+ItemDetailDao.getAllBomsByStatus = function(reqParams, getBomsCB) {
+    var whereParam = {
+        status: reqParams.status,
+        followUpDate: {
+            [Op.lte]: new Date()    // jshint ignore:line
+        }
+    };
+    if (reqParams.itemId !== 'NA') {
+        whereParam.itemId = {
+            [Op.like]: '%' + reqParams.itemId + '%'    // jshint ignore:line
+        };
+    }
     Models.ItemDetail.findAll({
         attributes: [
             'bomId',
             [sequelize.fn('min', sequelize.col('follow_up_date')), 'followUpDate'],
             [sequelize.fn('count', sequelize.col('bom_id')), 'followUpCount']
         ],
-        where: {
-            status: status,
-            followUpDate: {
-                [Op.lte]: new Date()    // jshint ignore:line
-            }
-        },
+        where: whereParam,
         group: ['bom_id'],
         order: [
             [sequelize.fn('min', sequelize.col('follow_up_date'))]

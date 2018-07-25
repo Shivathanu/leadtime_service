@@ -22,11 +22,11 @@ ItemDetailService.getLineItemCount = function(reqParam, getCountCB) {
 /**
  * Service to get all boms by Follow up date
  * 
- * @param {String} status
+ * @param {Object} reqParams
  * @param {Function} getBomsCB
  */
-ItemDetailService.getAllBomDetails = function(status, getBomsCB) {
-    itemDetailDao.getAllBomsByStatus(status, function(getError, bomList) {
+ItemDetailService.getAllBomDetails = function(reqParams, getBomsCB) {
+    itemDetailDao.getAllBomsByStatus(reqParams, function(getError, bomList) {
         if(getError) {
             return getBomsCB(getError);
         }   
@@ -52,7 +52,13 @@ ItemDetailService.getBomDetailsByPage = function(reqParams, getBomsCB) {
             status: constant.COMPLETEDSTATUS
         }
     };
-    itemDetailDao.getLimitedBomsByStatus(whereParam[reqParams.status], reqParams,
+    var queryParam = whereParam[reqParams.status];
+    if (reqParams.itemId !== 'NA') {
+        queryParam.itemId = {
+            [Op.like]: '%' + reqParams.itemId + '%'    // jshint ignore:line
+        };
+    }
+    itemDetailDao.getLimitedBomsByStatus(queryParam, reqParams,
         function(getError, bomList) {
         if(getError) {
             return getBomsCB(getError);

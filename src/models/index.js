@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var _ = require('lodash');
 var Sequelize = require('sequelize');
 var basename = path.basename(__filename);
 var env = process.env.NODE_ENV || 'development';
@@ -13,6 +14,7 @@ var sequelize = new Sequelize(
     {
         host: config.host,
         dialect: config.dialect,
+        logging: _.has(config, 'logging') ? config.logging : console.log,
         pool: config.pool
     }
 );

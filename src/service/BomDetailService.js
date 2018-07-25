@@ -43,12 +43,12 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
 /**
  * Service to get follow-up bom details
  * 
- * @param {Object} reqParam
+ * @param {Object} reqParams
  * @param {Function} getBomsCB
  */
-BomDetailService.getAllBomDetails = function(reqParam, getBomsCB) {
+BomDetailService.getAllBomDetails = function(reqParams, getBomsCB) {
     async.waterfall([
-        async.apply(itemDetailService.getAllBomDetails, reqParam.status),
+        async.apply(itemDetailService.getAllBomDetails, reqParams),
         getBomDetailsById
     ], function(waterFallError, result) {
         if(waterFallError) {

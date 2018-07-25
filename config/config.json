@@ -18,7 +18,6 @@
         "password": "passw0rd$",
         "host": "localhost",
         "dialect": "mssql",
-        "logging": true,
         "pool": {
             "max": 10,
             "min": 1,
