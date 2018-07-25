@@ -71,10 +71,19 @@ ItemDetailService.getBomDetailsByPage = function(reqParams, getBomsCB) {
  * Service to get Hold Line Items for a Bom
  * 
  * @param {String} bomId
+ * @param {String} type
  * @param {Function} getItemsCB
  */
-ItemDetailService.getHoldItemsByBomId = function(bomId, getItemsCB) {
-    itemDetailDao.getHoldItemsByBomId(bomId, function(getError, bomList) {
+ItemDetailService.getHoldItemsByBomId = function(bomId, type, getItemsCB) {
+    var parent = {
+        [Op.eq]: ''    // jshint ignore:line
+    };
+    if (type === 'child') {
+        parent = {
+            [Op.ne]: ''    // jshint ignore:line
+        };
+    }
+    itemDetailDao.getHoldItemsByBomId(bomId, parent, function(getError, bomList) {
         if(getError) {
             return getItemsCB(getError);
         }   

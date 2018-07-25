@@ -104,12 +104,13 @@ BomDetailService.getBomDetailsByPage = function(reqParam, getBomsCB) {
  * based on BomID
  * 
  * @param {String} bomId 
+ * @param {String} type 
  * @param {Function} getDetailsCB 
  */
-var getBomAndItemDetails = function(bomId, getDetailsCB) {
+var getBomAndItemDetails = function(bomId, type, getDetailsCB) {
     async.parallel({
         bomDetails: bomDetailDao.getBomDetailsById.bind(null, bomId),
-        itemDetails: itemDetailService.getHoldItemsByBomId.bind(null, bomId)
+        itemDetails: itemDetailService.getHoldItemsByBomId.bind(null, bomId, type)
     }, function(parallelErr, result) {
         if (parallelErr) {
             return getDetailsCB(parallelErr);
@@ -128,13 +129,13 @@ var getBomAndItemDetails = function(bomId, getDetailsCB) {
 /**
  * Service to get bom and corresponding line-items using bomid
  * 
- * @param {Object} reqParam
+ * @param {Object} reqParams
  * @param {Function} getBomCB
  */
-BomDetailService.getBomInfoById = function(reqParam, getBomCB) {
+BomDetailService.getBomInfoById = function(reqParams, getBomCB) {
     var bomDetails;
     async.waterfall([
-        async.apply(getBomAndItemDetails, reqParam.bomId),
+        async.apply(getBomAndItemDetails, reqParams.bomId, reqParams.type),
         function(bomData, passParamsCB) {
             bomDetails = bomData;
             return passParamsCB(null, bomData.contactUserId);

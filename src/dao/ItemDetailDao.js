@@ -103,16 +103,15 @@ ItemDetailDao.getCountByBomId = function(bomId, getCountCB) {
  * Dao to get Hold Item details for a Bom
  * 
  * @param {String} bomId
+ * @param {Object} parent
  * @param {Function} getItemsCB
  */
-ItemDetailDao.getHoldItemsByBomId = function(bomId, getItemsCB) {
+ItemDetailDao.getHoldItemsByBomId = function(bomId, parent, getItemsCB) {
     Models.ItemDetail.findAll({
         where: {
             bomId: bomId,
             status: constant.HOLDSTATUS,
-            parentId: {
-                [Op.eq]: ''    // jshint ignore:line
-            }
+            parentId: parent
         }
     }).then(function(lineItems) {
         return getItemsCB(null, lineItems);
