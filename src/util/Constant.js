@@ -1,7 +1,7 @@
 var constant = {
     HOLDSTATUS: 'Hold',
     COMPLETEDSTATUS: 'Released',
-    BOMDETAILPAGECOUNT: 10
+    PAGECOUNT: 10
 };
 
 module.exports = constant;

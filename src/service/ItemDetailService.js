@@ -1,5 +1,8 @@
+var sequelize = require('sequelize');
 var itemDetailDao = require('../dao/ItemDetailDao');
+var constant = require('../util/Constant');
 var ItemDetailService = {};
+var Op = sequelize.Op;
 
 /**
  * Service to get line items of particular bom
@@ -19,11 +22,38 @@ ItemDetailService.getLineItemCount = function(reqParam, getCountCB) {
 /**
  * Service to get all boms by Follow up date
  * 
- * @param {Object} reqParam
+ * @param {String} status
  * @param {Function} getBomsCB
  */
-ItemDetailService.getBomsByDate = function(reqParam, getBomsCB) {
-    itemDetailDao.getBomsByFollowUpDate(reqParam, function(getError, bomList) {
+ItemDetailService.getAllBomDetails = function(status, getBomsCB) {
+    itemDetailDao.getAllBomsByStatus(status, function(getError, bomList) {
+        if(getError) {
+            return getBomsCB(getError);
+        }   
+        return getBomsCB(null, bomList); 
+    });
+};
+
+/**
+ * Service to get boms per page by Follow up date
+ * 
+ * @param {Object} reqParams
+ * @param {Function} getBomsCB
+ */
+ItemDetailService.getBomDetailsByPage = function(reqParams, getBomsCB) {
+    var whereParam = {
+        Hold: {
+            status: constant.HOLDSTATUS,
+            followUpDate: {
+                [Op.gt]: new Date()    // jshint ignore:line
+            }
+        },
+        Released: {
+            status: constant.COMPLETEDSTATUS
+        }
+    };
+    itemDetailDao.getLimitedBomsByStatus(whereParam[reqParams.status], reqParams,
+        function(getError, bomList) {
         if(getError) {
             return getBomsCB(getError);
         }   

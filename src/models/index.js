@@ -13,7 +13,6 @@ var sequelize = new Sequelize(
     {
         host: config.host,
         dialect: config.dialect,
-        logging: config.logging,
         pool: config.pool
     }
 );

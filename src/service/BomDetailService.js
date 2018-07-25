@@ -7,28 +7,6 @@ var constant = require('../util/Constant.js');
 var BomDetailService = {};
 
 /**
- * Private method to separate bom list to today and other list
- * 
- * @param {String} status
- * @param {Array} bomDetailList 
- * @param {Function} separateCB
- */
-var separateBomsToFollowUp = function(status, bomDetailList, separateCB) {
-    if(status === constant.COMPLETEDSTATUS) {
-        return separateCB(null, bomDetailList);
-    }
-    var today = new Date();
-    var groupedLineItems = _.map(bomDetailList, function(bom) {
-        if(new Date(bom.followUpDate) <= today) {
-            return _.extend(bom, {'groupType': 'today'});
-        }
-        return _.extend(bom, {'groupType': 'other'});
-    });
-    return separateCB(null, _.assignIn({today: [], other: []}, 
-        _.groupBy(groupedLineItems, 'groupType')));
-};
-
-/**
  * Private method to get details for all boms
  * 
  * @param {Array} bomList 
@@ -63,24 +41,61 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
 };
 
 /**
- * Service to get all bom details by status
+ * Service to get follow-up bom details
  * 
  * @param {Object} reqParam
- * @param {Function} getAllBomDetailCB
+ * @param {Function} getBomsCB
  */
-BomDetailService.getBomDetailsByStatus = function(reqParam, getAllBomDetailCB) {
+BomDetailService.getAllBomDetails = function(reqParam, getBomsCB) {
     async.waterfall([
-        async.apply(itemDetailService.getBomsByDate, reqParam),
-        getBomDetailsById,
-        function(result, passParamsCB) {
-            return passParamsCB(null, reqParam.status, result);
-        },
-        separateBomsToFollowUp
+        async.apply(itemDetailService.getAllBomDetails, reqParam.status),
+        getBomDetailsById
     ], function(waterFallError, result) {
         if(waterFallError) {
-            return getAllBomDetailCB(waterFallError);
+            return getBomsCB(waterFallError);
         }
-        return getAllBomDetailCB(null, result);
+        return getBomsCB(null, result);
+    });
+};
+
+/**
+ * Private method to calculate follow up count
+ * 
+ * @param {Array} bomList 
+ * @param {String} status 
+ * @param {Function} countCB 
+ */
+var getFollowUpCount = function(bomList, status, countCB) {
+    if (status !== constant.COMPLETEDSTATUS) {
+        return countCB(null, bomList);
+    }
+    var result = _.map(bomList, function(bomDetail) {
+        return _.extend(bomDetail, {
+            followUpCount: bomDetail.totalLineItems - bomDetail.releaseCount
+        });
+    });
+    return countCB(null, result);
+};
+
+/**
+ * Service to get released bom details
+ * 
+ * @param {Object} reqParam
+ * @param {Function} getBomsCB
+ */
+BomDetailService.getBomDetailsByPage = function(reqParam, getBomsCB) {
+    async.waterfall([
+        async.apply(itemDetailService.getBomDetailsByPage, reqParam),
+        getBomDetailsById,
+        function(result, passParamsCB) {
+            return passParamsCB(null, result, reqParam.status);
+        },
+        getFollowUpCount
+    ], function(waterFallError, result) {
+        if(waterFallError) {
+            return getBomsCB(waterFallError);
+        }
+        return getBomsCB(null, result);
     });
 };
 
@@ -116,7 +131,7 @@ var getBomAndItemDetails = function(bomId, getDetailsCB) {
  * @param {Object} reqParam
  * @param {Function} getBomCB
  */
-BomDetailService.getBomById = function(reqParam, getBomCB) {
+BomDetailService.getBomInfoById = function(reqParam, getBomCB) {
     var bomDetails;
     async.waterfall([
         async.apply(getBomAndItemDetails, reqParam.bomId),
