@@ -109,7 +109,10 @@ ItemDetailDao.getHoldItemsByBomId = function(bomId, getItemsCB) {
     Models.ItemDetail.findAll({
         where: {
             bomId: bomId,
-            status: constant.HOLDSTATUS
+            status: constant.HOLDSTATUS,
+            parentId: {
+                [Op.eq]: ''    // jshint ignore:line
+            }
         }
     }).then(function(lineItems) {
         return getItemsCB(null, lineItems);
