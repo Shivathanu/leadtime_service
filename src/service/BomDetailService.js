@@ -3,7 +3,6 @@ var _ = require('lodash');
 var bomDetailDao = require('../dao/BomDetailDao');
 var itemDetailService = require('../service/itemDetailService');
 var contactUserService = require('../service/ContactUserService');
-var constant = require('../util/Constant.js');
 var BomDetailService = {};
 
 /**
@@ -46,9 +45,9 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
  * @param {Object} reqParams
  * @param {Function} getBomsCB
  */
-BomDetailService.getAllBomDetails = function(reqParams, getBomsCB) {
+BomDetailService.getFollowUpBomDetails = function(reqParams, getBomsCB) {
     async.waterfall([
-        async.apply(itemDetailService.getAllBomDetails, reqParams),
+        async.apply(itemDetailService.getFollowUpBomDetails, reqParams),
         getBomDetailsById
     ], function(waterFallError, result) {
         if(waterFallError) {
@@ -62,13 +61,9 @@ BomDetailService.getAllBomDetails = function(reqParams, getBomsCB) {
  * Private method to calculate follow up count
  * 
  * @param {Array} bomList 
- * @param {String} status 
  * @param {Function} countCB 
  */
-var getFollowUpCount = function(bomList, status, countCB) {
-    if (status !== constant.COMPLETEDSTATUS) {
-        return countCB(null, bomList);
-    }
+var getFollowUpCount = function(bomList, countCB) {
     var result = _.map(bomList, function(bomDetail) {
         return _.extend(bomDetail, {
             followUpCount: bomDetail.totalLineItems - bomDetail.releaseCount
@@ -80,16 +75,13 @@ var getFollowUpCount = function(bomList, status, countCB) {
 /**
  * Service to get released bom details
  * 
- * @param {Object} reqParam
+ * @param {Object} reqParams
  * @param {Function} getBomsCB
  */
-BomDetailService.getBomDetailsByPage = function(reqParam, getBomsCB) {
+BomDetailService.getCompletedBomDetails = function(reqParams, getBomsCB) {
     async.waterfall([
-        async.apply(itemDetailService.getBomDetailsByPage, reqParam),
+        async.apply(itemDetailService.getCompletedBomDetails, reqParams),
         getBomDetailsById,
-        function(result, passParamsCB) {
-            return passParamsCB(null, result, reqParam.status);
-        },
         getFollowUpCount
     ], function(waterFallError, result) {
         if(waterFallError) {

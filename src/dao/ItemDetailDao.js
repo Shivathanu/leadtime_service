@@ -2,32 +2,23 @@ var sequelize = require('sequelize');
 var Models = require('../models/index');
 var constant = require('../util/Constant.js');
 var ItemDetailDao = {};
-var Op = sequelize.Op;
 
 /**
  * Dao method to get all Boms by status
  * 
  * @param {Object} reqParams
+ * @param {Object} whereParam
  * @param {Function} getBomsCB
  */
-ItemDetailDao.getAllBomsByStatus = function(reqParams, getBomsCB) {
-    var whereParam = {
-        status: reqParams.status,
-        followUpDate: {
-            [Op.lte]: new Date()    // jshint ignore:line
-        }
-    };
-    if (reqParams.itemId !== 'NA') {
-        whereParam.itemId = {
-            [Op.like]: '%' + reqParams.itemId + '%'    // jshint ignore:line
-        };
-    }
+ItemDetailDao.getHoldBomDetails = function(reqParams, whereParam, getBomsCB) {
     Models.ItemDetail.findAll({
         attributes: [
             'bomId',
             [sequelize.fn('min', sequelize.col('follow_up_date')), 'followUpDate'],
             [sequelize.fn('count', sequelize.col('bom_id')), 'followUpCount']
         ],
+        limit: constant.PAGECOUNT,
+        offset: constant.PAGECOUNT * (reqParams.pageIndex - 1),
         where: whereParam,
         group: ['bom_id'],
         order: [
@@ -44,22 +35,18 @@ ItemDetailDao.getAllBomsByStatus = function(reqParams, getBomsCB) {
 };
 
 /**
- * Dao method to get line items per page by status
+ * Dao method to get released bom details
  * 
- * @param {Object} whereParam
  * @param {Object} reqParams
+ * @param {Object} whereParam
  * @param {Function} getBomsCB
  */
-ItemDetailDao.getLimitedBomsByStatus = function(whereParam, reqParams, getBomsCB) {
-    var count = {
-        Hold: 'followUpCount',
-        Released: 'releaseCount'
-    };
+ItemDetailDao.getReleasedBomDetails = function(reqParams, whereParam, getBomsCB) {
     Models.ItemDetail.findAll({
         attributes: [
             'bomId',
             [sequelize.fn('min', sequelize.col('follow_up_date')), 'followUpDate'],
-            [sequelize.fn('count', sequelize.col('bom_id')), count[reqParams.status]]
+            [sequelize.fn('count', sequelize.col('bom_id')), 'releaseCount']
         ],
         limit: constant.PAGECOUNT,
         offset: constant.PAGECOUNT * (reqParams.pageIndex - 1),

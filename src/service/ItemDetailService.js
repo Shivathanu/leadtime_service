@@ -20,13 +20,29 @@ ItemDetailService.getLineItemCount = function(reqParam, getCountCB) {
 };
 
 /**
- * Service to get all boms by Follow up date
+ * Service to get hold boms per page by Follow up date
  * 
  * @param {Object} reqParams
  * @param {Function} getBomsCB
  */
-ItemDetailService.getAllBomDetails = function(reqParams, getBomsCB) {
-    itemDetailDao.getAllBomsByStatus(reqParams, function(getError, bomList) {
+ItemDetailService.getFollowUpBomDetails = function(reqParams, getBomsCB) {
+    var whereParam = {
+        status: constant.HOLDSTATUS,
+        followUpDate: {
+            [Op.gt]: new Date()    // jshint ignore:line
+        }
+    };
+    if (reqParams.type === 'today') {
+        whereParam.followUpDate = {
+            [Op.lte]: new Date()    // jshint ignore:line
+        };
+    }
+    if (reqParams.bomId !== 'NA') {
+        whereParam.bomId = {
+            [Op.like]: '%' + reqParams.bomId + '%'    // jshint ignore:line
+        };
+    }
+    itemDetailDao.getHoldBomDetails(reqParams, whereParam, function(getError, bomList) {
         if(getError) {
             return getBomsCB(getError);
         }   
@@ -35,30 +51,21 @@ ItemDetailService.getAllBomDetails = function(reqParams, getBomsCB) {
 };
 
 /**
- * Service to get boms per page by Follow up date
+ * Service to get completed boms per page by Follow up date
  * 
  * @param {Object} reqParams
  * @param {Function} getBomsCB
  */
-ItemDetailService.getBomDetailsByPage = function(reqParams, getBomsCB) {
+ItemDetailService.getCompletedBomDetails = function(reqParams, getBomsCB) {
     var whereParam = {
-        Hold: {
-            status: constant.HOLDSTATUS,
-            followUpDate: {
-                [Op.gt]: new Date()    // jshint ignore:line
-            }
-        },
-        Released: {
-            status: constant.COMPLETEDSTATUS
-        }
+        status: constant.COMPLETEDSTATUS
     };
-    var queryParam = whereParam[reqParams.status];
-    if (reqParams.itemId !== 'NA') {
-        queryParam.itemId = {
-            [Op.like]: '%' + reqParams.itemId + '%'    // jshint ignore:line
+    if (reqParams.bomId !== 'NA') {
+        whereParam.bomId = {
+            [Op.like]: '%' + reqParams.bomId + '%'    // jshint ignore:line
         };
     }
-    itemDetailDao.getLimitedBomsByStatus(queryParam, reqParams,
+    itemDetailDao.getReleasedBomDetails(reqParams, whereParam,
         function(getError, bomList) {
         if(getError) {
             return getBomsCB(getError);

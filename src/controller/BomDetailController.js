@@ -9,8 +9,8 @@ var logger = require('../../config/log');
  * @param {Object} request
  * @param {Object} response
  */
-BomDetailController.get('/all/:itemId/:status', function(request, response) {
-    bomDetailService.getAllBomDetails(request.params, function(getError, bomDetailList) {
+BomDetailController.get('/follow-up/:bomId/:type/:pageIndex', function(request, response) {
+    bomDetailService.getFollowUpBomDetails(request.params, function(getError, bomDetailList) {
         if(getError) {
             logger.error('Error occured while getting all follow-up bom details', {
                 error: getError,
@@ -28,8 +28,8 @@ BomDetailController.get('/all/:itemId/:status', function(request, response) {
  * @param {Object} request
  * @param {Object} response
  */
-BomDetailController.get('/limit/:itemId/:status/:pageIndex', function(request, response) {
-    bomDetailService.getBomDetailsByPage(request.params, function(getError, bomDetailList) {
+BomDetailController.get('/completed/:bomId/:pageIndex', function(request, response) {
+    bomDetailService.getCompletedBomDetails(request.params, function(getError, bomDetailList) {
         if(getError) {
             logger.error('Error occured while getting all completed bom details', {
                 error: getError,
