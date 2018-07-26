@@ -19,7 +19,6 @@ module.exports = function(sequelize, DataTypes) {
         },
         bomCreatedDate: {
             type: DataTypes.DATE,
-            allowNull: false,
             field: 'bom_created_date'
         },
         soldToAcc: {
@@ -28,8 +27,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         soldToAccName: {
             type: DataTypes.STRING(135),
-            field: 'sold_to_acc_name',
-            allowNull: false
+            field: 'sold_to_acc_name'
         },
         orderNumber: {
             type: DataTypes.STRING(10),
