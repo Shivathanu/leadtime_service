@@ -15,7 +15,7 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
     async.map(bomList, function(bomDetail, asyncCB) {
         async.parallel({
             details: bomDetailDao.getBomInfoById.bind(null, bomDetail.bomId),
-            count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId)
+            count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId, 'all')
         }, function(parallelErr, result) {
             if (parallelErr) {
                 return asyncCB(parallelErr);
@@ -92,28 +92,27 @@ BomDetailService.getCompletedBomDetails = function(reqParams, getBomsCB) {
 };
 
 /**
- * Private method to get Both Bom and Item details
+ * Private method to get Both Bom Details and Item Info
  * based on BomID
  * 
  * @param {String} bomId 
  * @param {String} type 
  * @param {Function} getDetailsCB 
  */
-var getBomAndItemDetails = function(bomId, type, getDetailsCB) {
+var getBomDetailsAndItemInfo = function(bomId, type, getDetailsCB) {
     async.parallel({
         bomDetails: bomDetailDao.getBomDetailsById.bind(null, bomId),
-        itemDetails: itemDetailService.getHoldItemsByBomId.bind(null, bomId, type)
+        totalCount: itemDetailService.getLineItemCount.bind(null, bomId, 'all'),
+        followUpCount: itemDetailService.getLineItemCount.bind(null, bomId, 'hold'),
+        lastFollowUpDate: itemDetailService.getLastFollowUpDate.bind(null, bomId)
     }, function(parallelErr, result) {
         if (parallelErr) {
             return getDetailsCB(parallelErr);
         }
-        var today = new Date();
         var bomDetails = result.bomDetails.dataValues;
-        bomDetails.totalLineItems = result.itemDetails.length;
-        bomDetails.followUpCount = _.filter(result.itemDetails, function(lineItem) {
-            return (new Date(lineItem.dataValues.followUpDate) <= today);
-        }).length;
-        bomDetails.itemDetails = result.itemDetails;
+        bomDetails.totalLineItems = result.totalCount;
+        bomDetails.followUpCount = result.followUpCount;
+        bomDetails.lastFollowUpDate = result.lastFollowUpDate.followUpDate;
         return getDetailsCB(null, bomDetails);
     });
 };
@@ -127,7 +126,7 @@ var getBomAndItemDetails = function(bomId, type, getDetailsCB) {
 BomDetailService.getBomInfoById = function(reqParams, getBomCB) {
     var bomDetails;
     async.waterfall([
-        async.apply(getBomAndItemDetails, reqParams.bomId, reqParams.type),
+        async.apply(getBomDetailsAndItemInfo, reqParams.bomId, reqParams.type),
         function(bomData, passParamsCB) {
             bomDetails = bomData;
             return passParamsCB(null, bomData.contactUserId);

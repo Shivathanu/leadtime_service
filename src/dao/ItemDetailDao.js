@@ -68,15 +68,11 @@ ItemDetailDao.getReleasedBomDetails = function(reqParams, whereParam, getBomsCB)
 /**
  * Dao method to get count of line items by bom id
  * 
- * @param {String} bomId
+ * @param {Object} countParam
  * @param {Function} getCountCB
  */
-ItemDetailDao.getCountByBomId = function(bomId, getCountCB) {
-    Models.ItemDetail.count({
-        where: {
-            bomId: bomId
-        }
-    }).then(function(count) {
+ItemDetailDao.getCountByBomId = function(countParam, getCountCB) {
+    Models.ItemDetail.count(countParam).then(function(count) {
         return getCountCB(null, count);
     }, function(countErr) {
         return getCountCB({
@@ -90,20 +86,38 @@ ItemDetailDao.getCountByBomId = function(bomId, getCountCB) {
  * Dao to get Hold Item details for a Bom
  * 
  * @param {String} bomId
- * @param {Object} parent
+ * @param {Object} whereParam
  * @param {Function} getItemsCB
  */
-ItemDetailDao.getHoldItemsByBomId = function(bomId, parent, getItemsCB) {
+ItemDetailDao.getHoldItemsByBomId = function(bomId, whereParam, getItemsCB) {
     Models.ItemDetail.findAll({
-        where: {
-            bomId: bomId,
-            status: constant.HOLDSTATUS,
-            parentId: parent
-        }
+        where: whereParam,
+        order: ['itemId']
     }).then(function(lineItems) {
         return getItemsCB(null, lineItems);
     }, function(getError) {
         return getItemsCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
+    });
+};
+
+ItemDetailDao.getMaxFollowUpDate = function(bomId, getDateCB) {
+    Models.ItemDetail.find({
+        attributes: ['followUpDate'],
+        where: {
+            bomId: bomId,
+            status: constant.COMPLETEDSTATUS
+        },
+        group: ['follow_up_date'],
+        order: [
+            [sequelize.fn('max', sequelize.col('follow_up_date')), 'DESC']
+        ]
+    }).then(function(result) {
+        return getDateCB(null, result);
+    }, function(getError) {
+        return getDateCB({
             error: getError.name,
             message: getError.parent.message
         });
