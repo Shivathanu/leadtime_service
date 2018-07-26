@@ -1,5 +1,25 @@
+var async = require('async');
 var noteDao = require('../dao/NoteDao');
+var userService = require('../service/UserService');
 var NoteService = {};
+
+var getUserNameforNotes = function(notes, getNameCB) {
+    async.map(notes, function(note, asyncCB) {
+        userService.getUserName(note.dataValues.userId, function(userErr, user) {
+            if (userErr) {
+                return asyncCB(userErr);
+            }
+            note.dataValues.userName = user.dataValues.firstName + '.' +
+                user.dataValues.lastName;
+            return asyncCB(null, note);
+        });
+    }, function(mapErr, result) {
+        if (mapErr) {
+            return getNameCB(mapErr);
+        }
+        return getNameCB(null, result);
+    });
+};
 
 /**
  * Service to get all notes by bomid
@@ -8,11 +28,14 @@ var NoteService = {};
  * @param {Function} getNotesCB
  */
 NoteService.getAllNotes = function(reqParams, getNotesCB) {
-    noteDao.getNotesByBomId(reqParams.bomId, function(findError, notes) {
-        if (findError) {
-            return getNotesCB(findError);
+    async.waterfall([
+        async.apply(noteDao.getNotesByBomId, reqParams.bomId),
+        getUserNameforNotes
+    ], function(waterfallErr, result) {
+        if (waterfallErr) {
+            return getNotesCB(waterfallErr);
         }
-        return getNotesCB(null, notes);
+        return getNotesCB(null, result);
     });
 };
 
@@ -23,11 +46,15 @@ NoteService.getAllNotes = function(reqParams, getNotesCB) {
  * @param {Function} createCB
  */
 NoteService.createNewNote = function(reqParams, createCB) {
-    noteDao.createNoteForBom(reqParams, function(createError, note) {
-        if (createError) {
-            return createCB(createError);
+    async.parallel({
+        note: noteDao.createNoteForBom.bind(null, reqParams),
+        user: userService.getUserName.bind(null, reqParams.userId)
+    }, function(parallelErr, result) {
+        if (parallelErr) {
+            return createCB(parallelErr);
         }
-        return createCB(null, note);
+        result.note.dataValues.userName = result.user.dataValues.userName;
+        return createCB(null, result.note);
     });
 };
 

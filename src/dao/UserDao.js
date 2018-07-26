@@ -2,15 +2,20 @@ var Models = require('../models/index');
 var UserDao = {};
 
 /**
- * Method to find all users
+ * Method to find user name based on userid
  * 
- * @param {Function} findUsersCB
+ * @param {Function} findNameCB
  */
-UserDao.findAllUsers = function(findUsersCB) {
-    Models.User.findAll().then(function(users) {
-        return findUsersCB(null, users);
+UserDao.findUserName = function(userId, findNameCB) {
+    Models.User.find({
+        attributes: ['firstName', 'middleName', 'lastName'],
+        where: {
+            userId: userId
+        }
+    }).then(function(users) {
+        return findNameCB(null, users);
     }, function(findError) {
-        return findUsersCB({
+        return findNameCB({
             error: findError.name,
             message: findError.parent.message
         });
