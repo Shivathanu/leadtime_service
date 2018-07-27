@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
             field: 'quantity'
         },
         holdDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             field: 'hold_date'
         },
         prevLeadTime: {
@@ -47,11 +47,11 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         releaseDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             field: 'release_date'
         },            
         followUpDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             field: 'follow_up_date'
         },
         shippingAddress: {
@@ -67,7 +67,7 @@ module.exports = function(sequelize, DataTypes) {
             field: 'src_created_at'
         },
         shipDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             field: 'ship_date'
         },
         bomUpdatedDate: {
