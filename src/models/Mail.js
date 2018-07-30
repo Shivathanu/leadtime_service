@@ -8,19 +8,14 @@ module.exports = function(sequelize, DataTypes) {
             field: 'user_id',
             allowNull: false
         },
-        contactUserMailId: {
+        receiverId: {
             type: DataTypes.STRING(50),
-            field: 'contact_user_mail_id',
+            field: 'receiver_id',
             allowNull: false
         },
-        userMailId: {
-            type: DataTypes.STRING(50),
-            field: 'user_mail_id',
-            allowNull: false
-        },
-        content: {
-            type: DataTypes.TEXT,
-            field: 'content',
+        messageId: {
+            type: DataTypes.STRING,
+            field: 'message_id',
             allowNull: false
         },
         bomId: {

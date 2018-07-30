@@ -1,0 +1,88 @@
+<div style="min-width: 100%;">
+    <span style="font-family: Arial; font-size: 13px; text-align: left;">
+        Hi,
+    </span>
+</div>
+<div style="min-width: 100%">
+    <span style="font-family: Arial; font-size: 13px; text-align: left;">For your </span>
+    <span style="font-family: Arial; font-size: 13px; text-align: left;">PO# <%= data.customerPOId %>, </span>
+    <span style="font-family: Arial; font-size: 13px; text-align: left;">Compas Quote# - <%= data.bomId %>, </span>
+    <span style="font-family: Arial; font-size: 13px; text-align: left;">there are products still listed as hold for release.</span>
+</div>
+<div style="min-width: 100%;">
+    <p style="font-family: Arial; font-size: 13px; text-align: left;">
+        In an effort to effectively schedule production of your order, we have implemented a new hold for release process.
+        To ensure your order is released in time to meet your on-site requirements, your support in providing accurate
+        order information is very important.
+    </p>
+</div>
+<div>
+    <table style="border-collapse: collapse; margin-bottom: 10px;">
+        <thead>
+            <tr>
+                <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
+                    Line #
+                </th>
+                <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
+                    Product ID
+                </th>
+                <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
+                    Description
+                </th>
+                <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
+                    Designation
+                </th>
+                <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
+                    Qty
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.itemDetails.forEach(function(item) { %>
+                <tr>
+                    <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
+                        <%= item.itemId %>
+                    </td>
+                    <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
+                        <%= item.productName %>
+                    </td>
+                    <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
+                        <%= item.description %>
+                    </td>
+                    <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
+                        <%= item.designation %>
+                    </td>
+                    <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
+                        <%= item.quantity %>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+<div style="min-width: 100%;">
+    <span style="font-family: Arial; font-size: 13px; text-align: left;">
+        The hold for release order below requires your attention. Please take one of the following actions:
+    </span>
+    <ul>
+        <li style="font-family: Arial; font-size: 13px; text-align: left;">
+            Authorize release of your order within 30 days to allow scheduling on or near your estimated ship date.
+        </li>
+        <li style="font-family: Arial; font-size: 13px; text-align: left;">
+            Update the estimated ship date of your order or advise if it needs to be cancelled.
+        </li>
+    </ul>
+</div>
+<div style="min-width: 100%;">
+    <p style="font-family: Arial; font-size: 13px; text-align: left;">
+        If we do not hear back from you in 5 business days, we will extend the estimate ship date on your order by
+        180 days and follow-up with you again at that time.
+        If you would like to release your order before our next follow-up, please contact us and your order
+        will be scheduled according to current lead-times.
+    </p>
+</div>
+<div style="min-width: 100%;">
+    <p style="font-family: Arial; font-size: 13px; text-align: left;">
+        Thank you in advance for your attention to this matter.  We appreciate your business!
+    </p>
+</div>

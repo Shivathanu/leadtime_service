@@ -121,11 +121,13 @@ ItemDetailService.getCompletedBomDetails = function(reqParams, getBomsCB) {
 ItemDetailService.getHoldItems = function(reqParams, getItemsCB) {
     var whereParam = {
         bomId: reqParams.bomId,
-        status: constant.HOLDSTATUS,
-        followUpDate: {
-            [Op.lte]: new Date()    // jshint ignore:line
-        }
+        status: constant.HOLDSTATUS
     };
+    if (reqParams.duration === 'today') {
+        whereParam.followUpDate = {
+            [Op.lte]: new Date()    // jshint ignore:line
+        };
+    }
     if(reqParams.duration === 'other') {
         whereParam.followUpDate = {
             [Op.gt]: new Date()    // jshint ignore:line
