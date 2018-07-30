@@ -30,8 +30,7 @@ BomDetailDao.getBomInfoById = function(bomId, getBomCB) {
  */
 BomDetailDao.getBomDetailsById = function(bomId, getBomCB) {
     Models.BomDetail.find({
-        attributes: ['bomId', 'soldToAcc', 'soldToAccName', 'orderNumber',
-            'customerPOId', 'contactUserId'],
+        attributes: ['bomId', 'soldToAcc', 'soldToAccName', 'orderNumber', 'customerPOId'],
         where: {
             bomId: bomId
         }

@@ -48,7 +48,7 @@ BomDetailController.get('/completed/:bomId/:pageIndex', function(request, respon
  * @param {Object} response
  */
 BomDetailController.get('/bom-info/:bomId', function(request, response) {
-    bomDetailService.getBomInfoById(request.params, function(getError, bom) {
+    bomDetailService.getBomInfo(request.params, function(getError, bom) {
         if(getError) {
             logger.error('Error while getting bom by id', {
                 error: getError,

@@ -2,7 +2,6 @@ var async = require('async');
 var _ = require('lodash');
 var bomDetailDao = require('../dao/BomDetailDao');
 var itemDetailService = require('../service/itemDetailService');
-var contactUserService = require('../service/ContactUserService');
 var BomDetailService = {};
 
 /**
@@ -92,19 +91,18 @@ BomDetailService.getCompletedBomDetails = function(reqParams, getBomsCB) {
 };
 
 /**
- * Private method to get Both Bom Details and Item Info
+ * Service to get Both Bom Details and Item Info
  * based on BomID
  * 
- * @param {String} bomId 
- * @param {String} type 
+ * @param {Object} reqParams
  * @param {Function} getDetailsCB 
  */
-var getBomDetailsAndItemInfo = function(bomId, type, getDetailsCB) {
+BomDetailService.getBomInfo = function(reqParams, getDetailsCB) {
     async.parallel({
-        bomDetails: bomDetailDao.getBomDetailsById.bind(null, bomId),
-        totalCount: itemDetailService.getLineItemCount.bind(null, bomId, 'all'),
-        followUpCount: itemDetailService.getLineItemCount.bind(null, bomId, 'hold'),
-        lastFollowUpDate: itemDetailService.getLastFollowUpDate.bind(null, bomId)
+        bomDetails: bomDetailDao.getBomDetailsById.bind(null, reqParams.bomId),
+        totalCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId, 'all'),
+        followUpCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId, 'hold'),
+        lastFollowUpDate: itemDetailService.getLastFollowUpDate.bind(null, reqParams.bomId)
     }, function(parallelErr, result) {
         if (parallelErr) {
             return getDetailsCB(parallelErr);
@@ -114,33 +112,6 @@ var getBomDetailsAndItemInfo = function(bomId, type, getDetailsCB) {
         bomDetails.followUpCount = result.followUpCount;
         bomDetails.lastFollowUpDate = result.lastFollowUpDate.followUpDate;
         return getDetailsCB(null, bomDetails);
-    });
-};
-
-/**
- * Service to get bom and corresponding line-items using bomid
- * 
- * @param {Object} reqParams
- * @param {Function} getBomCB
- */
-BomDetailService.getBomInfoById = function(reqParams, getBomCB) {
-    var bomDetails;
-    async.waterfall([
-        async.apply(getBomDetailsAndItemInfo, reqParams.bomId, reqParams.type),
-        function(bomData, passParamsCB) {
-            bomDetails = bomData;
-            return passParamsCB(null, bomData.contactUserId);
-        },
-        contactUserService.getContactUserById,
-        function(contactUser, constructCB) {
-            bomDetails.contactUser = contactUser;
-            return constructCB(null, bomDetails);
-        }
-    ], function(waterfallErr, result) {
-        if (waterfallErr) {
-            return getBomCB(waterfallErr);
-        }
-        return getBomCB(null, result);
     });
 };
 
