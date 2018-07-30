@@ -29,6 +29,35 @@ ItemDetailService.getLineItemCount = function(bomId, type, getCountCB) {
 };
 
 /**
+ * Service to get follow-up items count for specific duration
+ * 
+ * @param {String} bomId
+ * @param {String} duration
+ * @param {Function} getCountCB
+ */
+ItemDetailService.getFollowUpCount = function(bomId, duration, getCountCB) {
+    var countParam = {
+        where: {
+            bomId: bomId,
+            followUpDate: {
+                [Op.lte]: new Date()    // jshint ignore:line
+            }
+        }
+    };
+    if (duration === 'other') {
+        countParam.where.followUpDate = {
+            [Op.gt]: new Date()    // jshint ignore:line
+        };
+    }
+    itemDetailDao.getCountByBomId(countParam, function(getError, lineItemList) {
+        if(getError) {
+            return getCountCB(getError);
+        }   
+        return getCountCB(null, lineItemList); 
+    });
+};
+
+/**
  * Service to get hold boms per page by Follow up date
  * 
  * @param {Object} reqParams

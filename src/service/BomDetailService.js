@@ -101,7 +101,8 @@ BomDetailService.getBomInfo = function(reqParams, getDetailsCB) {
     async.parallel({
         bomDetails: bomDetailDao.getBomDetailsById.bind(null, reqParams.bomId),
         totalCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId, 'all'),
-        followUpCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId, 'hold'),
+        followUpCount: itemDetailService.getFollowUpCount.bind(null, reqParams.bomId,
+            reqParams.duration),
         lastFollowUpDate: itemDetailService.getLastFollowUpDate.bind(null, reqParams.bomId)
     }, function(parallelErr, result) {
         if (parallelErr) {
@@ -110,7 +111,8 @@ BomDetailService.getBomInfo = function(reqParams, getDetailsCB) {
         var bomDetails = result.bomDetails.dataValues;
         bomDetails.totalLineItems = result.totalCount;
         bomDetails.followUpCount = result.followUpCount;
-        bomDetails.lastFollowUpDate = result.lastFollowUpDate.followUpDate;
+        bomDetails.lastFollowUpDate = (result.lastFollowUpDate ||
+            {followUpDate: null}).followUpDate;
         return getDetailsCB(null, bomDetails);
     });
 };
