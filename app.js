@@ -7,6 +7,7 @@ var http = require('http');
 var cors = require('cors');
 var clientRouter = require('./routes/index');
 var serverRouter = require('./src/controller/index');
+var authService = require('./config/auth');
 
 var app = express();
 
@@ -20,6 +21,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+
+// Authentication
+app.all('*', function(request, response, next) {
+    var environment = request.app.get('env');
+    authService.verifyToken(environment, request, function(authError) {
+        if (authError) {
+            response.status(403).send(authError);
+        } else {
+            next();
+        }
+    });
+});
 
 // Client Routing
 app.use('/LeadtimeService', clientRouter);
