@@ -9,7 +9,7 @@ var logger = require('../../config/log');
  * @param {Object} request
  * @param {Object} response
  */
-ItemDetailController.get('/follow-up/:type/:itemId/:bomId', function(request, response) {
+ItemDetailController.get('/follow-up/:duration/:type/:itemId/:bomId', function(request, response) {
     itemDetailService.getHoldItems(request.params, function(getError, itemDetails) {
         if (getError) {
             logger.error('Error while getting Hold Item Details', {

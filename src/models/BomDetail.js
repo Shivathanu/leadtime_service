@@ -59,24 +59,5 @@ module.exports = function(sequelize, DataTypes) {
         freezeTableName: true,
         tableName: 'lta_bom_detail'
     });
-    BomDetail.associate = function(models) {
-        BomDetail.belongsTo(models.User, {
-            foreignKey: 'createdBy',
-            targetKey: 'userId',
-            onDelete: 'cascade'
-        });
-        BomDetail.belongsTo(models.ContactUser, {
-            as: 'contactUser',
-            foreignKey: 'contactUserId',
-            targetKey: 'contactUserId',
-            onDelete: 'cascade'
-        });
-        BomDetail.hasMany(models.ItemDetail, {
-            as: 'itemDetails',
-            foreignKey: 'bomId',
-            sourceKey: 'bom_id',
-            onDelete: 'cascade'
-        });
-    };
     return BomDetail;
 };

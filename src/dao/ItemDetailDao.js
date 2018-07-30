@@ -92,7 +92,7 @@ ItemDetailDao.getCountByBomId = function(countParam, getCountCB) {
 ItemDetailDao.getHoldItemsByBomId = function(bomId, whereParam, getItemsCB) {
     Models.ItemDetail.findAll({
         where: whereParam,
-        order: ['itemId']
+        order: ['followUpDate', 'itemId']
     }).then(function(lineItems) {
         return getItemsCB(null, lineItems);
     }, function(getError) {
@@ -103,6 +103,12 @@ ItemDetailDao.getHoldItemsByBomId = function(bomId, whereParam, getItemsCB) {
     });
 };
 
+/**
+ * Dao to get max Follow-up date of released items
+ * 
+ * @param {String} bomId
+ * @param {Function} getDateCB
+ */
 ItemDetailDao.getMaxFollowUpDate = function(bomId, getDateCB) {
     Models.ItemDetail.find({
         attributes: ['followUpDate'],

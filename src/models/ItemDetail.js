@@ -88,12 +88,5 @@ module.exports = function(sequelize, DataTypes) {
         freezeTableName: true,
         tableName: 'lta_item_detail'
     });
-    ItemDetail.associate = function(models) {
-        ItemDetail.belongsTo(models.BomDetail, {
-            foreignKey: 'bomId',
-            targetKey: 'bomId',
-            onDelete: 'cascade'
-        });
-    };
     return ItemDetail;
 };

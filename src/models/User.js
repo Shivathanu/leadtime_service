@@ -39,12 +39,5 @@ module.exports = function(sequelize, DataTypes) {
         freezeTableName: true,    
         tableName: 'lta_user'
     });
-    User.associate = function(models) {
-        User.hasMany(models.BomDetail, {
-            foreignKey: 'createdBy',
-            sourceKey: 'user_id',
-            onDelete: 'cascade'
-        });
-    };
     return User;
 };
