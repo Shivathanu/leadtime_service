@@ -38,16 +38,27 @@ ItemDetailService.getLineItemCount = function(bomId, type, getCountCB) {
 ItemDetailService.getFollowUpCount = function(bomId, duration, getCountCB) {
     var countParam = {
         where: {
-            bomId: bomId,
-            followUpDate: {
-                [Op.lte]: new Date()    // jshint ignore:line
-            }
+            bomId: bomId
         }
     };
-    if (duration === 'other') {
-        countParam.where.followUpDate = {
-            [Op.gt]: new Date()    // jshint ignore:line
-        };
+    if (duration !== 'NA') {
+        /* jshint ignore:start */
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var followUpDate = {
+            pastDue: { [Op.lt]: date },
+            dueToday: { [Op.eq]: date },
+            oneWeek: {
+                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month, day + 7) }]
+            },
+            oneMonth: {
+                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month + 1, day) }]
+            }
+        }
+        countParam.where.followUpDate = followUpDate[duration];
+        /* jshint ignore:end */
     }
     itemDetailDao.getCountByBomId(countParam, function(getError, lineItemList) {
         if(getError) {
@@ -65,15 +76,26 @@ ItemDetailService.getFollowUpCount = function(bomId, duration, getCountCB) {
  */
 ItemDetailService.getFollowUpBomDetails = function(reqParams, getBomsCB) {
     var whereParam = {
-        status: constant.HOLDSTATUS,
-        followUpDate: {
-            [Op.gt]: new Date()    // jshint ignore:line
-        }
+        status: constant.HOLDSTATUS
     };
-    if (reqParams.type === 'today') {
-        whereParam.followUpDate = {
-            [Op.lte]: new Date()    // jshint ignore:line
-        };
+    if (reqParams.duration !== 'NA') {
+        /* jshint ignore:start */
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var followUpDate = {
+            pastDue: { [Op.lt]: date },
+            dueToday: { [Op.eq]: date },
+            oneWeek: {
+                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month, day + 7) }]
+            },
+            oneMonth: {
+                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month + 1, day) }]
+            }
+        }
+        whereParam.followUpDate = followUpDate[reqParams.duration];
+        /* jshint ignore:end */
     }
     if (reqParams.bomId !== 'NA') {
         whereParam.bomId = {
@@ -123,15 +145,24 @@ ItemDetailService.getHoldItems = function(reqParams, getItemsCB) {
         bomId: reqParams.bomId,
         status: constant.HOLDSTATUS
     };
-    if (reqParams.duration === 'today') {
-        whereParam.followUpDate = {
-            [Op.lte]: new Date()    // jshint ignore:line
-        };
-    }
-    if(reqParams.duration === 'other') {
-        whereParam.followUpDate = {
-            [Op.gt]: new Date()    // jshint ignore:line
-        };
+    if (reqParams.duration !== 'NA') {
+        /* jshint ignore:start */
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var followUpDate = {
+            pastDue: { [Op.lt]: date },
+            dueToday: { [Op.eq]: date },
+            oneWeek: {
+                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month, day + 7) }]
+            },
+            oneMonth: {
+                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month + 1, day) }]
+            }
+        }
+        whereParam.followUpDate = followUpDate[reqParams.duration];
+        /* jshint ignore:end */
     }
     if (reqParams.type === 'parent') {
         whereParam.parentId = {
