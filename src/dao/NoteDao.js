@@ -39,4 +39,28 @@ NoteDao.createNoteForBom = function(reqParams, createNoteCB) {
     });
 };
 
+/**
+ * Dao to get recent note by created date
+ * 
+ * @param {String} bomId
+ * @param {Function} getNoteCB
+ */
+NoteDao.getRecentNote = function(bomId, getNoteCB) {
+    Models.Note.find({
+        where: {
+            bomId: bomId
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    }).then(function(note) {
+        return getNoteCB(null, note);
+    }, function(getError) {
+        return getNoteCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
+    });
+};
+
 module.exports = NoteDao;

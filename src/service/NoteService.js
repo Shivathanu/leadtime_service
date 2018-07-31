@@ -3,6 +3,12 @@ var noteDao = require('../dao/NoteDao');
 var userService = require('../service/UserService');
 var NoteService = {};
 
+/**
+ * Method to get user name for notes
+ * 
+ * @param {Array} notes 
+ * @param {Function} getNameCB 
+ */
 var getUserNameforNotes = function(notes, getNameCB) {
     async.map(notes, function(note, asyncCB) {
         userService.getUserName(note.dataValues.userId, function(userErr, user) {
@@ -55,6 +61,21 @@ NoteService.createNewNote = function(reqParams, createCB) {
         }
         result.note.dataValues.userName = result.user.dataValues.userName;
         return createCB(null, result.note);
+    });
+};
+
+/**
+ * Service to get recently created note
+ * 
+ * @param {String} bomId
+ * @param {Function} getNoteCB
+ */
+NoteService.getLatestNote = function(bomId, getNoteCB) {
+    noteDao.getRecentNote(bomId, function(getErr, note) {
+        if (getErr) {
+            return getNoteCB(getErr);
+        }
+        return getNoteCB(null, note);
     });
 };
 

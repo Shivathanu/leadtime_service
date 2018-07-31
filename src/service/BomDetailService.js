@@ -1,7 +1,8 @@
 var async = require('async');
 var _ = require('lodash');
 var bomDetailDao = require('../dao/BomDetailDao');
-var itemDetailService = require('../service/itemDetailService');
+var itemDetailService = require('../service/ItemDetailService');
+var noteService = require('../service/NoteService');
 var BomDetailService = {};
 
 /**
@@ -14,7 +15,8 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
     async.map(bomList, function(bomDetail, asyncCB) {
         async.parallel({
             details: bomDetailDao.getBomInfoById.bind(null, bomDetail.bomId),
-            count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId, 'all')
+            count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId, 'all'),
+            lastFollowUp: noteService.getLatestNote.bind(null, bomDetail.bomId)
         }, function(parallelErr, result) {
             if (parallelErr) {
                 return asyncCB(parallelErr);
@@ -26,7 +28,8 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
             }
             return asyncCB(null, _.extend(bomDetail.dataValues,
                 result.details.dataValues, {
-                    totalLineItems: result.count
+                    totalLineItems: result.count,
+                    lastFollowUp: result.lastFollowUp
                 })
             );
         });
