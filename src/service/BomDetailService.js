@@ -9,13 +9,15 @@ var BomDetailService = {};
  * Private method to get details for all boms
  * 
  * @param {Array} bomList 
+ * @param {String} duration 
  * @param {Function} getDetailsCB 
  */
-var getBomDetailsById = function(bomList, getDetailsCB) {
+var getBomFollowUpDetailsById = function(bomList, duration, getDetailsCB) {
     async.map(bomList, function(bomDetail, asyncCB) {
         async.parallel({
             details: bomDetailDao.getBomInfoById.bind(null, bomDetail.bomId),
             count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId, 'all'),
+            followUpCount: itemDetailService.getFollowUpCount.bind(null, bomDetail.bomId, duration),
             lastFollowUp: noteService.getLatestNote.bind(null, bomDetail.bomId)
         }, function(parallelErr, result) {
             if (parallelErr) {
@@ -29,7 +31,8 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
             return asyncCB(null, _.extend(bomDetail.dataValues,
                 result.details.dataValues, {
                     totalLineItems: result.count,
-                    lastFollowUp: result.lastFollowUp
+                    lastFollowUp: result.lastFollowUp,
+                    followUpCount: result.followUpCount
                 })
             );
         });
@@ -49,42 +52,11 @@ var getBomDetailsById = function(bomList, getDetailsCB) {
  */
 BomDetailService.getFollowUpBomDetails = function(reqParams, getBomsCB) {
     async.waterfall([
-        async.apply(itemDetailService.getFollowUpBomDetails, reqParams),
-        getBomDetailsById
-    ], function(waterFallError, result) {
-        if(waterFallError) {
-            return getBomsCB(waterFallError);
-        }
-        return getBomsCB(null, result);
-    });
-};
-
-/**
- * Private method to calculate follow up count
- * 
- * @param {Array} bomList 
- * @param {Function} countCB 
- */
-var getFollowUpCount = function(bomList, countCB) {
-    var result = _.map(bomList, function(bomDetail) {
-        return _.extend(bomDetail, {
-            followUpCount: bomDetail.totalLineItems - bomDetail.releaseCount
-        });
-    });
-    return countCB(null, result);
-};
-
-/**
- * Service to get released bom details
- * 
- * @param {Object} reqParams
- * @param {Function} getBomsCB
- */
-BomDetailService.getCompletedBomDetails = function(reqParams, getBomsCB) {
-    async.waterfall([
-        async.apply(itemDetailService.getCompletedBomDetails, reqParams),
-        getBomDetailsById,
-        getFollowUpCount
+        async.apply(itemDetailService.getHoldBomDetails, reqParams),
+        function(bomList, passParamsCB) {
+            return passParamsCB(null, bomList, reqParams.duration);
+        },
+        getBomFollowUpDetailsById
     ], function(waterFallError, result) {
         if(waterFallError) {
             return getBomsCB(waterFallError);
@@ -105,8 +77,7 @@ BomDetailService.getBomInfo = function(reqParams, getDetailsCB) {
         bomDetails: bomDetailDao.getBomDetailsById.bind(null, reqParams.bomId),
         totalCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId, 'all'),
         followUpCount: itemDetailService.getFollowUpCount.bind(null, reqParams.bomId,
-            reqParams.duration),
-        lastFollowUpDate: itemDetailService.getLastFollowUpDate.bind(null, reqParams.bomId)
+            reqParams.duration)
     }, function(parallelErr, result) {
         if (parallelErr) {
             return getDetailsCB(parallelErr);
@@ -114,8 +85,6 @@ BomDetailService.getBomInfo = function(reqParams, getDetailsCB) {
         var bomDetails = result.bomDetails.dataValues;
         bomDetails.totalLineItems = result.totalCount;
         bomDetails.followUpCount = result.followUpCount;
-        bomDetails.lastFollowUpDate = (result.lastFollowUpDate ||
-            {followUpDate: null}).followUpDate;
         return getDetailsCB(null, bomDetails);
     });
 };

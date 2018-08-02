@@ -10,43 +10,11 @@ var ItemDetailDao = {};
  * @param {Object} whereParam
  * @param {Function} getBomsCB
  */
-ItemDetailDao.getHoldBomDetails = function(reqParams, whereParam, getBomsCB) {
+ItemDetailDao.getFollowUpBomDetails = function(reqParams, whereParam, getBomsCB) {
     Models.ItemDetail.findAll({
         attributes: [
             'bomId',
-            [sequelize.fn('min', sequelize.col('follow_up_date')), 'followUpDate'],
-            [sequelize.fn('count', sequelize.col('bom_id')), 'followUpCount']
-        ],
-        limit: constant.PAGECOUNT,
-        offset: constant.PAGECOUNT * (reqParams.pageIndex - 1),
-        where: whereParam,
-        group: ['bom_id'],
-        order: [
-            [sequelize.fn('min', sequelize.col('follow_up_date'))]
-        ]
-    }).then(function(lineItems) {
-        return getBomsCB(null, lineItems);
-    }, function(getError) {
-        return getBomsCB({
-            error: getError.name,
-            message: getError.parent.message
-        });
-    });
-};
-
-/**
- * Dao method to get released bom details
- * 
- * @param {Object} reqParams
- * @param {Object} whereParam
- * @param {Function} getBomsCB
- */
-ItemDetailDao.getReleasedBomDetails = function(reqParams, whereParam, getBomsCB) {
-    Models.ItemDetail.findAll({
-        attributes: [
-            'bomId',
-            [sequelize.fn('min', sequelize.col('follow_up_date')), 'followUpDate'],
-            [sequelize.fn('count', sequelize.col('bom_id')), 'releaseCount']
+            [sequelize.fn('min', sequelize.col('follow_up_date')), 'followUpDate']
         ],
         limit: constant.PAGECOUNT,
         offset: constant.PAGECOUNT * (reqParams.pageIndex - 1),
@@ -83,20 +51,16 @@ ItemDetailDao.getCountByBomId = function(countParam, getCountCB) {
 };
 
 /**
- * Dao to get Hold Item details for a Bom
+ * Dao to get all Item Details
  * 
- * @param {String} bomId
- * @param {Object} whereParam
- * @param {Function} getItemsCB
+ * @param {Object} findParam
+ * @param {Function} getDetailsCB
  */
-ItemDetailDao.getHoldItemsByBomId = function(bomId, whereParam, getItemsCB) {
-    Models.ItemDetail.findAll({
-        where: whereParam,
-        order: ['followUpDate', 'itemId']
-    }).then(function(lineItems) {
-        return getItemsCB(null, lineItems);
+ItemDetailDao.getItemDetails = function(findParam, getDetailsCB) {
+    Models.ItemDetail.findAll(findParam).then(function(items) {
+        return getDetailsCB(null, items);
     }, function(getError) {
-        return getItemsCB({
+        return getDetailsCB({
             error: getError.name,
             message: getError.parent.message
         });
@@ -104,26 +68,46 @@ ItemDetailDao.getHoldItemsByBomId = function(bomId, whereParam, getItemsCB) {
 };
 
 /**
- * Dao to get max Follow-up date of released items
+ * Dao to get Item Detail by item id
  * 
+ * @param {String} itemId
  * @param {String} bomId
- * @param {Function} getDateCB
+ * @param {Function} getDetailCB
  */
-ItemDetailDao.getMaxFollowUpDate = function(bomId, getDateCB) {
+ItemDetailDao.getItemDetailById = function(itemId, bomId, getDetailCB) {
     Models.ItemDetail.find({
-        attributes: ['followUpDate'],
         where: {
-            bomId: bomId,
-            status: constant.COMPLETEDSTATUS
-        },
-        group: ['follow_up_date'],
-        order: [
-            [sequelize.fn('max', sequelize.col('follow_up_date')), 'DESC']
-        ]
-    }).then(function(result) {
-        return getDateCB(null, result);
+            itemId: itemId,
+            bomId: bomId
+        }
+    }).then(function(itemDetail) {
+        return getDetailCB(null, itemDetail);
     }, function(getError) {
-        return getDateCB({
+        return getDetailCB({
+            error: getError.name,
+            message: getError.parent.message
+        });
+    });
+};
+
+/**
+ * Dao to get all child line items by parent id
+ * 
+ * @param {String} parentId
+ * @param {String} bomId
+ * @param {Function} getDetailsCB
+ */
+ItemDetailDao.getChildItemDetailsById = function(parentId, bomId, getDetailsCB) {
+    Models.ItemDetail.findAll({
+        where: {
+            parentId: parentId,
+            bomId: bomId
+        },
+        order: ['item_id']
+    }).then(function(itemDetails) {
+        return getDetailsCB(null, itemDetails);
+    }, function(getError) {
+        return getDetailsCB({
             error: getError.name,
             message: getError.parent.message
         });
