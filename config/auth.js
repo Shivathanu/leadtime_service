@@ -1,5 +1,6 @@
 /*jshint camelcase: false */
 var httpRequest = require('request');
+var datasource = require('./datasources.config');
 
 var AuthService = {
     verifyToken: function(environment, request, authCB) {
@@ -7,7 +8,7 @@ var AuthService = {
             return authCB(null);
         }
         var options = {
-            url: 'https://dev2.compasquality.siemens-info.com/authserver/rest/verify/json',
+            url: datasource.url[environment] + '/authserver/rest/verify/json',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

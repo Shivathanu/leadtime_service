@@ -25,7 +25,7 @@
             "idle": 10000
         }
     },
-    "production": {
+    "quality": {
         "database": "COMPAS_LT_ANALYSIS",
         "username": "sa",
         "password": "COMPAS11**",

@@ -5,10 +5,10 @@
   "scripts": {
     "start": "nodemon app.js",
     "development": "set NODE_ENV=development&&nodemon app.js",
-    "production": "set NODE_ENV=production&&node app.js",
+    "quality": "set NODE_ENV=quality&&node app.js",
     "migrate": "sequelize db:migrate",
     "migrate-development": "set NODE_ENV=development&&sequelize db:migrate",
-    "migrate-production": "set NODE_ENV=production&&sequelize db:migrate",
+    "migrate-quality": "set NODE_ENV=quality&&sequelize db:migrate",
     "migrate-test": "set NODE_ENV=test&&sequelize db:migrate",
     "test": "set NODE_ENV=test&&istanbul cover --handle-sigint ./node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register",
     "jshint": "jshint ."

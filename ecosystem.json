@@ -6,9 +6,9 @@
             "PORT": 4000,
             "NODE_ENV": "development"
         },
-        "env_production": {
+        "env_quality": {
             "PORT": 4000,
-            "NODE_ENV": "production"
+            "NODE_ENV": "quality"
         }
     }]
 }
