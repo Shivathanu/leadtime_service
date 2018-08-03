@@ -101,7 +101,8 @@ ItemDetailDao.getChildItemDetailsById = function(parentId, bomId, getDetailsCB) 
     Models.ItemDetail.findAll({
         where: {
             parentId: parentId,
-            bomId: bomId
+            bomId: bomId,
+            status: constant.HOLDSTATUS
         },
         order: ['item_id']
     }).then(function(itemDetails) {
