@@ -100,7 +100,7 @@ MailService.sendFollowUpMail = function(reqParams, sendMailCB) {
         type: 'child'
     };
     async.waterfall([
-        async.apply(itemDetailService.getHoldItems, itemParams),
+        async.apply(itemDetailService.getFollowUpItems, itemParams),
         function(itemDetails, passResultCB) {
             var result = {
                 bomId: reqParams.bomId,
