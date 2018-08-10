@@ -79,7 +79,7 @@ var getFollowUpItemsList = function(reqParams, getItemsCB) {
         bomId: reqParams.bomId,
         status: constant.HOLDSTATUS
     };
-    if (reqParams.duration !== 'NA') {
+    if (reqParams.duration && (reqParams.duration !== 'NA')) {
         /* jshint ignore:start */
         var date = new Date();
         var year = date.getFullYear();

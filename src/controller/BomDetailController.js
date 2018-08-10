@@ -29,7 +29,7 @@ BomDetailController.get('/follow-up/:bomId/:duration/:pageIndex/:status',
  * @param {Object} request
  * @param {Object} response
  */
-BomDetailController.get('/bom-info/:duration/:bomId', function(request, response) {
+BomDetailController.get('/bom-info/:bomId', function(request, response) {
     bomDetailService.getBomInfo(request.params, function(getError, bom) {
         if(getError) {
             logger.error('Error while getting bom by id', {

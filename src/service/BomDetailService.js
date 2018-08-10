@@ -9,15 +9,14 @@ var BomDetailService = {};
  * Private method to get details for all boms
  * 
  * @param {Array} bomList 
- * @param {String} duration 
  * @param {Function} getDetailsCB 
  */
-var getBomFollowUpDetailsById = function(bomList, duration, getDetailsCB) {
+var getBomFollowUpDetailsById = function(bomList, getDetailsCB) {
     async.map(bomList, function(bomDetail, asyncCB) {
         async.parallel({
             details: bomDetailDao.getBomInfoById.bind(null, bomDetail.bomId),
             count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId, 'all'),
-            followUpCount: itemDetailService.getFollowUpCount.bind(null, bomDetail.bomId, duration),
+            followUpCount: itemDetailService.getFollowUpCount.bind(null, bomDetail.bomId, 'NA'),
             lastFollowUp: noteService.getLatestNote.bind(null, bomDetail.bomId)
         }, function(parallelErr, result) {
             if (parallelErr) {
@@ -53,9 +52,6 @@ var getBomFollowUpDetailsById = function(bomList, duration, getDetailsCB) {
 BomDetailService.getFollowUpBomDetails = function(reqParams, getBomsCB) {
     async.waterfall([
         async.apply(itemDetailService.getHoldBomDetails, reqParams),
-        function(bomList, passParamsCB) {
-            return passParamsCB(null, bomList, reqParams.duration);
-        },
         getBomFollowUpDetailsById
     ], function(waterFallError, result) {
         if(waterFallError) {
