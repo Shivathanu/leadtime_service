@@ -9,14 +9,16 @@ var BomDetailService = {};
  * Private method to get details for all boms
  * 
  * @param {Array} bomList 
+ * @param {String} duration
  * @param {Function} getDetailsCB 
  */
-var getBomFollowUpDetailsById = function(bomList, getDetailsCB) {
+var getBomFollowUpDetailsById = function(bomList, duration, getDetailsCB) {
     async.map(bomList, function(bomDetail, asyncCB) {
         async.parallel({
             details: bomDetailDao.getBomInfoById.bind(null, bomDetail.bomId),
             count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId, 'all'),
-            followUpCount: itemDetailService.getFollowUpCount.bind(null, bomDetail.bomId, 'NA'),
+            followUpCount: itemDetailService.getFollowUpCount.bind(null, bomDetail.bomId,
+                duration),
             lastFollowUp: noteService.getLatestNote.bind(null, bomDetail.bomId)
         }, function(parallelErr, result) {
             if (parallelErr) {
@@ -52,6 +54,9 @@ var getBomFollowUpDetailsById = function(bomList, getDetailsCB) {
 BomDetailService.getFollowUpBomDetails = function(reqParams, getBomsCB) {
     async.waterfall([
         async.apply(itemDetailService.getHoldBomDetails, reqParams),
+        function(bomList, passParamsCB) {
+            return passParamsCB(null, bomList, reqParams.duration);
+        },
         getBomFollowUpDetailsById
     ], function(waterFallError, result) {
         if(waterFallError) {
@@ -72,8 +77,7 @@ BomDetailService.getBomInfo = function(reqParams, getDetailsCB) {
     async.parallel({
         bomDetails: bomDetailDao.getBomDetailsById.bind(null, reqParams.bomId),
         totalCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId, 'all'),
-        followUpCount: itemDetailService.getFollowUpCount.bind(null, reqParams.bomId,
-            reqParams.duration)
+        followUpCount: itemDetailService.getFollowUpCount.bind(null, reqParams.bomId, 'NA')
     }, function(parallelErr, result) {
         if (parallelErr) {
             return getDetailsCB(parallelErr);
