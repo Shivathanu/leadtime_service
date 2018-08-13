@@ -11,14 +11,14 @@ var MailService = {};
  * Method to send mail to a group of receivers
  * 
  * @param {DOM} template
- * @param {Array} receivers
+ * @param {Object} reqParams
  * @param {Function} sendMailCB
  */
-var sendMails = function(template, receivers, sendMailCB) {
-    async.mapSeries(receivers, function(receiverId, asyncCB) {
+var sendMails = function(template, reqParams, sendMailCB) {
+    async.mapSeries(reqParams.receivers, function(receiverId, asyncCB) {
         var mailParams = {
             receiverId: receiverId,
-            subject: 'Purchase Order - Customer Support',
+            subject: reqParams.subject || 'Purchase Order - Customer Support',
             html: template
         };
         mailSender.sendMail(mailParams, function(mailErr, response) {
@@ -111,7 +111,7 @@ MailService.sendFollowUpMail = function(reqParams, sendMailCB) {
         },
         generateFollowUpTemplate,
         function(template, passParamsCB) {
-            return passParamsCB(null, template, reqParams.receivers);
+            return passParamsCB(null, template, reqParams);
         },
         sendMails,
         function(mailList, passParamsCB) {
