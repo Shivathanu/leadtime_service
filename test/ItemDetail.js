@@ -5,10 +5,10 @@ var expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe('Item detail model', function() {
-    it('Get item detail by bomid', function(done) {
+describe('Item detail Controller', function() {
+    it('Get Item details by bomid', function(done) {
         chai.request(app)
-            .get('/LeadtimeService/api/item-detail/all/batfs0600_12081701_07_00_M00')
+            .get('/LeadtimeService/api/item-detail/follow-up/child/NA/batfs0600_12081701_07_00_M00')
             .end(function(error, response) {
                 if (error) {
                     done(error);
