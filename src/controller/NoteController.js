@@ -30,6 +30,7 @@ NoteController.post('/create', function(request, response) {
  */
 NoteController.get('/:bomId', function(request, response) {
     noteService.getAllNotes(request.params, function(getError, notes) {
+        /* istanbul ignore if */
         if (getError) {
             logger.error('Error while getting notes by bomid', {
                 error: getError,

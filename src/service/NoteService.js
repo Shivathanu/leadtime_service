@@ -20,6 +20,7 @@ var getUserNameforNotes = function(notes, getNameCB) {
             return asyncCB(null, note);
         });
     }, function(mapErr, result) {
+        /* istanbul ignore if */
         if (mapErr) {
             return getNameCB(mapErr);
         }
@@ -38,6 +39,7 @@ NoteService.getAllNotes = function(reqParams, getNotesCB) {
         async.apply(noteDao.getNotesByBomId, reqParams.bomId),
         getUserNameforNotes
     ], function(waterfallErr, result) {
+        /* istanbul ignore if */
         if (waterfallErr) {
             return getNotesCB(waterfallErr);
         }
@@ -72,6 +74,7 @@ NoteService.createNewNote = function(reqParams, createCB) {
  */
 NoteService.getLatestNote = function(bomId, getNoteCB) {
     noteDao.getRecentNote(bomId, function(getErr, note) {
+        /* istanbul ignore if */
         if (getErr) {
             return getNoteCB(getErr);
         }

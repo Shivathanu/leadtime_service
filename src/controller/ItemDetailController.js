@@ -11,6 +11,7 @@ var logger = require('../../config/log');
  */
 ItemDetailController.get('/follow-up/:type/:itemId/:bomId', function(request, response) {
     itemDetailService.getFollowUpItems(request.params, function(getError, itemDetails) {
+        /* istanbul ignore if */
         if (getError) {
             logger.error('Error while getting Hold Item Details', {
                 error: getError,

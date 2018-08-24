@@ -10,19 +10,16 @@ var Op = sequelize.Op;
  * Service to get line items count of particular bom
  *
  * @param {String} bomId
- * @param {String} type
  * @param {Function} getCountCB
  */
-ItemDetailService.getLineItemCount = function(bomId, type, getCountCB) {
+ItemDetailService.getLineItemCount = function(bomId, getCountCB) {
     var countParam = {
         where: {
             bomId: bomId
         }
     };
-    if (type === 'hold') {
-        countParam.where.status = constant.HOLDSTATUS;
-    }
     itemDetailDao.getCountByBomId(countParam, function(getError, lineItemList) {
+        /* istanbul ignore if */
         if(getError) {
             return getCountCB(getError);
         }   
@@ -61,6 +58,7 @@ var getItemsList = function(whereParam, itemType, getListCB) {
         };
     }
     itemDetailDao.getItemDetails(findParam, function(itemErr, result) {
+        /* istanbul ignore if */
         if (itemErr) {
             return getListCB(itemErr);
         }
@@ -252,6 +250,7 @@ ItemDetailService.getFollowUpItems = function(reqParams, getItemsCB) {
         },
         getChildItemDetails
     ], function(waterfallErr, result) {
+        /* istanbul ignore if */
         if (waterfallErr) {
             return getItemsCB(waterfallErr);
         }

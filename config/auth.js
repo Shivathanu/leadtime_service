@@ -4,7 +4,7 @@ var datasource = require('./datasources.config');
 
 var AuthService = {
     verifyToken: function(environment, request, authCB) {
-        if (environment === 'development') {
+        if (environment === 'development' || environment === 'test') {
             return authCB(null);
         }
         var options = {

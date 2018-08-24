@@ -12,7 +12,8 @@
     "migrate-quality": "set NODE_ENV=quality&&sequelize db:migrate",
     "migrate-production": "set NODE_ENV=production&&sequelize db:migrate",
     "migrate-test": "set NODE_ENV=test&&sequelize db:migrate",
-    "test": "set NODE_ENV=test&&istanbul cover --handle-sigint ./node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register",
+    "test": "set NODE_ENV=test&&mocha --timeout 10000 --exit",
+    "report": "set NODE_ENV=test&&istanbul cover ./node_modules/mocha/bin/_mocha -- --timeout 10000 --exit",
     "jshint": "jshint ."
   },
   "dependencies": {
@@ -34,7 +35,6 @@
     "winston": "^2.4.2"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "istanbul": "^1.1.0-alpha.1",

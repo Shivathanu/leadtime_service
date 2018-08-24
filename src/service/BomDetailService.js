@@ -16,7 +16,7 @@ var getBomFollowUpDetailsById = function(bomList, duration, getDetailsCB) {
     async.map(bomList, function(bomDetail, asyncCB) {
         async.parallel({
             details: bomDetailDao.getBomInfoById.bind(null, bomDetail.bomId),
-            count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId, 'all'),
+            count: itemDetailService.getLineItemCount.bind(null, bomDetail.bomId),
             followUpCount: itemDetailService.getFollowUpCount.bind(null, bomDetail.bomId,
                 duration),
             lastFollowUp: noteService.getLatestNote.bind(null, bomDetail.bomId)
@@ -38,6 +38,7 @@ var getBomFollowUpDetailsById = function(bomList, duration, getDetailsCB) {
             );
         });
     }, function(mapError, result) {
+        /* istanbul ignore if */
         if (mapError) {
             return getDetailsCB(mapError);
         }
@@ -76,7 +77,7 @@ BomDetailService.getFollowUpBomDetails = function(reqParams, getBomsCB) {
 BomDetailService.getBomInfo = function(reqParams, getDetailsCB) {
     async.parallel({
         bomDetails: bomDetailDao.getBomDetailsById.bind(null, reqParams.bomId),
-        totalCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId, 'all'),
+        totalCount: itemDetailService.getLineItemCount.bind(null, reqParams.bomId),
         followUpCount: itemDetailService.getFollowUpCount.bind(null, reqParams.bomId, 'NA')
     }, function(parallelErr, result) {
         if (parallelErr) {

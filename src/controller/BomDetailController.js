@@ -30,6 +30,7 @@ BomDetailController.get('/follow-up/:bomId/:duration/:pageIndex/:status',
  * @param {Object} response
  */
 BomDetailController.get('/bom-info/:bomId', function(request, response) {
+    /* istanbul ignore if */
     bomDetailService.getBomInfo(request.params, function(getError, bom) {
         if(getError) {
             logger.error('Error while getting bom by id', {
