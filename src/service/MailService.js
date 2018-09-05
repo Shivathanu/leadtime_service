@@ -1,6 +1,7 @@
 var path = require('path');
 var async = require('async');
 var ejs = require('ejs');
+var noteService = require('../service/NoteService');
 var itemDetailService = require('../service/ItemDetailService');
 var mailDao = require('../dao/MailDao');
 var mailSender = require('../scripts/MailSender');
@@ -48,6 +49,7 @@ var generateFollowUpTemplate = function(templateParams, generateCB) {
     var templatePath = path.join(__dirname, '../templates/MailContent.ejs');
     ejs.renderFile(templatePath, {data: templateParams},
         function(renderError, template) {
+        /* istanbul ignore if */
         if(renderError) {
             return generateCB(renderError);
         }
@@ -56,13 +58,13 @@ var generateFollowUpTemplate = function(templateParams, generateCB) {
 };
 
 /**
- * Method to log sent mails
+ * Method to save mail status log
  * 
  * @param {Object} reqParams 
  * @param {Array} mailList 
- * @param {Function} logCB 
+ * @param {Function} logMailCB 
  */
-var logSentMails = function(reqParams, mailList, logCB) {
+var saveMailLog = function(reqParams, mailList, logMailCB) {
     async.map(mailList, function(mail, asyncCB) {
         var mailParams = {
             userId: reqParams.userId,
@@ -79,10 +81,54 @@ var logSentMails = function(reqParams, mailList, logCB) {
             return asyncCB(null, mailLog);
         });
     }, function(mapErr, result) {
+        /* istanbul ignore if */
         if (mapErr) {
-            return logCB(mapErr);
+            return logMailCB(mapErr);
         }
-        return logCB(null, result);
+        return logMailCB(null, result);
+    });
+};
+
+/**
+ * Method to save mail sent status as note log
+ * 
+ * @param {Object} reqParams 
+ * @param {Function} logNoteCB 
+ */
+var saveNoteLog = function(reqParams, logNoteCB) {
+    var noteParams = {
+        userId: reqParams.userId,
+        bomId: reqParams.bomId,
+        createdAt: new Date()
+    };
+    noteParams.content = 'Follow-up mail sent to ' + reqParams.receivers.join() + ' on ' +
+        noteParams.createdAt.toLocaleDateString();
+    noteService.createNewNote(noteParams, function(noteErr, note) {
+        /* istanbul ignore if */
+        if (noteErr) {
+            return logNoteCB(noteErr);
+        }
+        return logNoteCB(null, note);
+    });
+};
+
+/**
+ * Method to log sent mails as both mail and note logger
+ * 
+ * @param {Object} reqParams 
+ * @param {Array} mailList 
+ * @param {Function} logCB 
+ */
+var logSentMails = function(reqParams, mailList, logCB) {
+    async.parallel({
+        mailLog: saveMailLog.bind(null, reqParams, mailList),
+        noteLog: saveNoteLog.bind(null, reqParams)
+    }, function(parallelErr, result) {
+        /* istanbul ignore if */
+        if (parallelErr) {
+            return logCB(parallelErr);
+        }
+        return logCB(null, result.noteLog);
     });
 };
 
