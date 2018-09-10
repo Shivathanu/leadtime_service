@@ -83,17 +83,22 @@ var getFollowUpItemsList = function(reqParams, getItemsCB) {
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
-        var followUpDate = {
-            pastDue: { [Op.lt]: date },
-            dueToday: { [Op.eq]: date },
+        var dateParam = {
+            pastDue: {
+                followUpDate: { [Op.gte]: date },
+                requiredReleaseDate: { [Op.lte]: date }
+            },
+            dueToday: {
+                requiredReleaseDate: { [Op.lt]: date }
+            },
             oneWeek: {
-                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month, day + 7) }]
+                followUpDate: { [Op.gt]: new Date(year, month, day + 5)}
             },
             oneMonth: {
-                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month + 1, day) }]
+                followUpDate: { [Op.gt]: new Date(year, month, day + 30)}
             }
-        }
-        whereParam.followUpDate = followUpDate[reqParams.duration];
+        };
+        whereParam = _.extend(whereParam, dateParam[reqParams.duration]);
         /* jshint ignore:end */
     }
     if (reqParams.itemId !== 'NA') {
@@ -152,17 +157,22 @@ ItemDetailService.getHoldBomDetails = function(reqParams, getBomsCB) {
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
-        var followUpDate = {
-            pastDue: { [Op.lt]: date },
-            dueToday: { [Op.eq]: date },
+        var dateParam = {
+            pastDue: {
+                followUpDate: { [Op.gte]: date },
+                requiredReleaseDate: { [Op.lte]: date }
+            },
+            dueToday: {
+                requiredReleaseDate: { [Op.lt]: date }
+            },
             oneWeek: {
-                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month, day + 7) }]
+                followUpDate: { [Op.gt]: new Date(year, month, day + 5)}
             },
             oneMonth: {
-                [Op.and]: [{ [Op.gt]: date }, { [Op.lte]: new Date(year, month + 1, day) }]
+                followUpDate: { [Op.gt]: new Date(year, month, day + 30)}
             }
-        }
-        whereParam.followUpDate = followUpDate[reqParams.duration];
+        };
+        whereParam = _.extend(whereParam, dateParam[reqParams.duration]);
         /* jshint ignore:end */
     }
     if (reqParams.bomId !== 'NA') {

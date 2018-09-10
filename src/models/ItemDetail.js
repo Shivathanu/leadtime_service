@@ -54,6 +54,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DATEONLY,
             field: 'follow_up_date'
         },
+        requiredReleaseDate: {
+            type: DataTypes.DATEONLY,
+            field: 'required_release_date'
+        },
         shippingAddress: {
             type: DataTypes.TEXT,
             field: 'shipping_address_detail'
