@@ -85,11 +85,11 @@ var getFollowUpItemsList = function(reqParams, getItemsCB) {
         var day = date.getDate();
         var dateParam = {
             pastDue: {
-                followUpDate: { [Op.gte]: date },
-                requiredReleaseDate: { [Op.lte]: date }
+                requiredReleaseDate: { [Op.lt]: date }
             },
             dueToday: {
-                requiredReleaseDate: { [Op.lt]: date }
+                followUpDate: { [Op.gte]: date },
+                requiredReleaseDate: { [Op.lte]: date }
             },
             oneWeek: {
                 followUpDate: { [Op.gt]: new Date(year, month, day + 5)}
@@ -159,11 +159,11 @@ ItemDetailService.getHoldBomDetails = function(reqParams, getBomsCB) {
         var day = date.getDate();
         var dateParam = {
             pastDue: {
-                followUpDate: { [Op.gte]: date },
-                requiredReleaseDate: { [Op.lte]: date }
+                requiredReleaseDate: { [Op.lt]: date }
             },
             dueToday: {
-                requiredReleaseDate: { [Op.lt]: date }
+                followUpDate: { [Op.gte]: date },
+                requiredReleaseDate: { [Op.lte]: date }
             },
             oneWeek: {
                 followUpDate: { [Op.gt]: new Date(year, month, day + 5) }
