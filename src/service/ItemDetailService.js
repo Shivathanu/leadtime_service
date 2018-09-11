@@ -166,10 +166,10 @@ ItemDetailService.getHoldBomDetails = function(reqParams, getBomsCB) {
                 requiredReleaseDate: { [Op.lt]: date }
             },
             oneWeek: {
-                followUpDate: { [Op.gt]: new Date(year, month, day + 5)}
+                followUpDate: { [Op.gt]: new Date(year, month, day + 5) }
             },
             oneMonth: {
-                followUpDate: { [Op.gt]: new Date(year, month, day + 30)}
+                followUpDate: { [Op.gt]: new Date(year, month, day + 30) }
             }
         };
         whereParam = _.extend(whereParam, dateParam[reqParams.duration]);

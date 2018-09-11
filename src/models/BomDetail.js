@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             field: 'bom_id'
         },
+        bomName: {
+            type: DataTypes.STRING(999),
+            field: 'bom_name'
+        },
         createdBy: {
             type: DataTypes.STRING(10),
             field: 'created_by'
