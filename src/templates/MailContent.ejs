@@ -35,6 +35,12 @@
                 <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
                     Qty
                 </th>
+                <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
+                    Estimated Ship Date
+                </th>
+                <th style="color: #8a8a8a; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px;">
+                    Requested Release Date
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -54,6 +60,12 @@
                     </td>
                     <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
                         <%= item.quantity %>
+                    </td>
+                    <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
+                        <%= new Date(item.holdDate).toLocaleDateString() %>
+                    </td>
+                    <td style="border-top: 1px solid #dedede; border-bottom: 1px solid #dedede; font-family: Arial; font-size: 12px; font-weight: 700; padding: 10px; text-align: center;">
+                        <%= new Date(item.requiredReleaseDate).toLocaleDateString() %>
                     </td>
                 </tr>
             <% }); %>
