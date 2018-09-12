@@ -7,6 +7,8 @@ var mailDao = require('../dao/MailDao');
 var mailSender = require('../scripts/MailSender');
 var constant = require('../util/Constant');
 var MailService = {};
+var env = process.env.NODE_ENV || 'development';
+var environment = require('../../config/datasources.config').url[env];
 
 /**
  * Method to send mail to a group of receivers
@@ -151,7 +153,9 @@ MailService.sendFollowUpMail = function(reqParams, sendMailCB) {
             var result = {
                 bomId: reqParams.bomId,
                 customerPOId: reqParams.customerPOId,
-                itemDetails: itemDetails
+                itemDetails: itemDetails,
+                customerName: reqParams.customerName,
+                environment: environment
             };
             return passResultCB(null, result);
         },

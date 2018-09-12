@@ -1,6 +1,6 @@
 <div style="min-width: 100%;">
     <span style="font-family: Arial; font-size: 13px; text-align: left;">
-        Hi,
+        <%= data.customerName ? ('Dear ' + data.customerName + ',') : 'Hi,' %>
     </span>
 </div>
 <div style="min-width: 100%">
@@ -20,6 +20,11 @@
     <ul>
         <li style="font-family: Arial; font-size: 13px; text-align: left;">
             Release your order
+            (
+                <a href="<%= data.environment %>/mCompas/Compas/ManageJob/#!/jcb">
+                    Click here to release order
+                </a>
+            )
         </li>
         <li style="font-family: Arial; font-size: 13px; text-align: left;">
             Update the estimated ship date on your order
@@ -88,5 +93,16 @@
 <div style="min-width: 100%;">
     <p style="font-family: Arial; font-size: 13px; text-align: left;">
         Thank you in advance for your attention to this matter.  We appreciate your business!
+    </p>
+</div>
+<div style="min-width: 100%;">
+    <p style="font-family: Arial; font-size: 13px; text-align: left; margin: 0;">
+        Siemens Industry, Inc.
+    </p>
+    <p style="font-family: Arial; font-size: 13px; text-align: left; margin: 0;">
+        Customer Support
+    </p>
+    <p style="font-family: Arial; font-size: 13px; text-align: left; margin: 0;">
+        866-663-7324
     </p>
 </div>

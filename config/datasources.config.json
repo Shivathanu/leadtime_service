@@ -1,5 +1,6 @@
 {
     "url": {
+        "development": "https://dev2.compasquality.siemens-info.com",
         "quality": "https://dev2.compasquality.siemens-info.com",
         "production": "https://dev2.compasquality.siemens-info.com"
     }
