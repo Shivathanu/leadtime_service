@@ -180,6 +180,11 @@ ItemDetailService.getHoldBomDetails = function(reqParams, getBomsCB) {
             [Op.like]: '%' + reqParams.bomId + '%'    // jshint ignore:line
         };
     }
+    if (reqParams.status === 'Released') {
+        whereParam.followUpDate = {
+            [Op.ne]: null    // jshint ignore:line
+        };
+    }
     itemDetailDao.getFollowUpBomDetails(reqParams, whereParam, function(getError, bomList) {
         if(getError) {
             return getBomsCB(getError);
