@@ -22,8 +22,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+// Client Routing
+app.use('/LeadtimeService', clientRouter);
+
+// Ping Service
+app.use('/LeadtimeService/ping', function(request, response) {
+    response.send(
+        'LeadtimeService is up and running - release version - CL-P9'
+    );
+});
+
 // Authentication
-app.all('*', function(request, response, next) {
+app.use('/LeadtimeService/api', function(request, response, next) {
     var environment = request.app.get('env');
     authService.verifyToken(environment, request, function(authError) {
         if (authError) {
@@ -33,9 +43,6 @@ app.all('*', function(request, response, next) {
         }
     });
 });
-
-// Client Routing
-app.use('/LeadtimeService', clientRouter);
 
 // Server Routing
 app.use('/LeadtimeService/api', serverRouter);
