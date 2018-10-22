@@ -30,7 +30,7 @@ module.exports = function(sequelize, DataTypes) {
             field: 'sold_to_acc'
         },
         soldToAccName: {
-            type: DataTypes.STRING(135),
+            type: DataTypes.STRING(300),
             field: 'sold_to_acc_name'
         },
         orderNumber: {
