@@ -2,7 +2,7 @@ var constant = {
     HOLDSTATUS: 'Hold',
     COMPLETEDSTATUS: 'Released',
     MAILSENTSTATUS: 'SENT',
-    PAGECOUNT: 10
+    PAGECOUNT: 15
 };
 
 module.exports = constant;
