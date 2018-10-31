@@ -213,7 +213,7 @@ var getItemDetailsList = function(items, bomId, getDetailsCB) {
         if (mapErr) {
             return getDetailsCB(mapErr);
         }
-        var result = _.sortBy(itemDetails, ['followUpDate']);
+        var result = _.sortBy(_.compact(itemDetails), ['followUpDate']);
         return getDetailsCB(null, result);
     });
 };
@@ -235,6 +235,9 @@ var getChildItemDetails = function(items, bomId, type, getDetailsCB) {
             if (itemErr) {
                 return asyncCB(itemErr);
             }
+            if (type === 'child') {
+                return asyncCB(null, childDetails);
+            }
             var details = _.union([item], childDetails);
             return asyncCB(null, details);
         });
@@ -254,13 +257,18 @@ var getChildItemDetails = function(items, bomId, type, getDetailsCB) {
  * @param {Function} getItemsCB
  */
 ItemDetailService.getFollowUpItems = function(reqParams, getItemsCB) {
+    var items;
     async.waterfall([
         async.apply(getFollowUpItemsList, reqParams),
         function(itemList, passParamsCB) {
+            items = itemList;
             return passParamsCB(null, itemList, reqParams.bomId);
         },
         getItemDetailsList,
         function(itemDetails, passParamsCB) {
+            if (reqParams.type === 'child') {
+                return passParamsCB(null, items,  reqParams.bomId, reqParams.type);
+            }
             return passParamsCB(null, itemDetails, reqParams.bomId, reqParams.type);
         },
         getChildItemDetails

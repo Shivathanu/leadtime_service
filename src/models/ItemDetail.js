@@ -82,6 +82,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(6),
             field: 'parent_id'
         },
+        isDeliverable: {
+            type: DataTypes.BOOLEAN,
+            field: 'is_deliverable'
+        },
         createdAt: {
             allowNull: false,
             type: DataTypes.DATE,

@@ -78,7 +78,8 @@ ItemDetailDao.getItemDetailById = function(itemId, bomId, getDetailCB) {
     Models.ItemDetail.find({
         where: {
             itemId: itemId,
-            bomId: bomId
+            bomId: bomId,
+            isDeliverable: true
         }
     }).then(function(itemDetail) {
         return getDetailCB(null, itemDetail);
@@ -102,7 +103,8 @@ ItemDetailDao.getChildItemDetailsById = function(parentId, bomId, getDetailsCB) 
         where: {
             parentId: parentId,
             bomId: bomId,
-            status: constant.HOLDSTATUS
+            status: constant.HOLDSTATUS,
+            isDeliverable: true
         },
         order: ['item_id']
     }).then(function(itemDetails) {
