@@ -222,13 +222,14 @@ var getItemDetailsList = function(items, bomId, getDetailsCB) {
  * Method to get all child Item Details
  * 
  * @param {Array} items 
+ * @param {Array} itemDetails 
  * @param {String} bomId
  * @param {String} type 
  * @param {Function} getDetailsCB 
  */
-var getChildItemDetails = function(items, bomId, type, getDetailsCB) {
+var getChildItemDetails = function(items, itemDetails, bomId, type, getDetailsCB) {
     if (type === 'parent') {
-        return getDetailsCB(null, items);
+        return getDetailsCB(null, itemDetails);
     }
     async.map(items, function(item, asyncCB) {
         itemDetailDao.getChildItemDetailsById(item.itemId, bomId, function(itemErr, childDetails) {
@@ -238,7 +239,9 @@ var getChildItemDetails = function(items, bomId, type, getDetailsCB) {
             if (type === 'child') {
                 return asyncCB(null, childDetails);
             }
-            var details = _.union([item], childDetails);
+            var details = _.union(
+                _.filter(itemDetails, function(detail) { return detail.itemId === item.itemId; }),
+                childDetails);
             return asyncCB(null, details);
         });
     }, function(mapErr, itemDetails) {
@@ -266,10 +269,7 @@ ItemDetailService.getFollowUpItems = function(reqParams, getItemsCB) {
         },
         getItemDetailsList,
         function(itemDetails, passParamsCB) {
-            if (reqParams.type === 'child') {
-                return passParamsCB(null, items,  reqParams.bomId, reqParams.type);
-            }
-            return passParamsCB(null, itemDetails, reqParams.bomId, reqParams.type);
+            return passParamsCB(null, items, itemDetails, reqParams.bomId, reqParams.type);
         },
         getChildItemDetails
     ], function(waterfallErr, result) {
