@@ -72,15 +72,19 @@ ItemDetailDao.getItemDetails = function(findParam, getDetailsCB) {
  * 
  * @param {String} itemId
  * @param {String} bomId
+ * @param {Boolean} isDeliverable
  * @param {Function} getDetailCB
  */
-ItemDetailDao.getItemDetailById = function(itemId, bomId, getDetailCB) {
+ItemDetailDao.getItemDetailById = function(itemId, bomId, isDeliverable, getDetailCB) {
+    var whereParam = {
+        itemId: itemId,
+        bomId: bomId
+    };
+    if (isDeliverable) {
+        whereParam.isDeliverable = true;
+    }
     Models.ItemDetail.find({
-        where: {
-            itemId: itemId,
-            bomId: bomId,
-            isDeliverable: true
-        }
+        where: whereParam
     }).then(function(itemDetail) {
         return getDetailCB(null, itemDetail);
     }, function(getError) {
