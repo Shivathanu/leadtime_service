@@ -175,9 +175,22 @@ ItemDetailService.getHoldBomDetails = function(reqParams, getBomsCB) {
         whereParam = _.extend(whereParam, dateParam[reqParams.duration]);
         /* jshint ignore:end */
     }
-    if (reqParams.bomId !== 'NA') {
-        whereParam.bomId = {
-            [Op.like]: '%' + reqParams.bomId + '%'    // jshint ignore:line
+    if (reqParams.bomSearch !== 'NA') {
+        whereParam = {
+            [Op.and]: [    // jshint ignore:line
+                whereParam,
+                {
+                    [Op.or]: [{    // jshint ignore:line
+                        bomId: {
+                            [Op.like]: '%' + reqParams.bomSearch + '%'    // jshint ignore:line
+                        }
+                    }, {
+                        orderNumber: {
+                            [Op.like]: '%' + reqParams.bomSearch + '%'    // jshint ignore:line
+                        }
+                    }]
+                }
+            ]
         };
     }
     if (reqParams.status === 'Released') {

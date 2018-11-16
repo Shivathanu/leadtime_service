@@ -8,6 +8,10 @@ module.exports = function(sequelize, DataTypes) {
             field: 'bom_id',
             allowNull: false
         },
+        orderNumber: {
+            type: DataTypes.STRING(10),
+            field: 'order_number'
+        },
         itemId: {
             type: DataTypes.STRING(6),
             field: 'item_id',

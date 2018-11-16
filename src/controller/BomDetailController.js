@@ -9,7 +9,7 @@ var logger = require('../../config/log');
  * @param {Object} request
  * @param {Object} response
  */
-BomDetailController.get('/follow-up/:bomId/:duration/:pageIndex/:status',
+BomDetailController.get('/follow-up/:bomSearch/:duration/:pageIndex/:status',
     function(request, response) {
     bomDetailService.getFollowUpBomDetails(request.params, function(getError, bomDetailList) {
         if(getError) {
