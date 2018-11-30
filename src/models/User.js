@@ -33,6 +33,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DATE,
             field: 'created_at',
             allowNull: false
+        },
+        employeeId: {
+            type: DataTypes.STRING(15),
+            field: 'employee_id'
         }
     }, {
         timestamps: false,

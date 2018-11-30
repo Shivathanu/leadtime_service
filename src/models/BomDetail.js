@@ -57,6 +57,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DATE,
             allowNull: false,
             field: 'created_at'
+        },
+        projectManager: {
+            type: DataTypes.STRING(60),
+            field: 'project_manager'
         }
     }, {
         timestamps: false,
