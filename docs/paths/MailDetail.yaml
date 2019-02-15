@@ -1,0 +1,58 @@
+paths:
+  /mail/follow-up:
+    servers:
+    - url: '/LeadtimeService/api'
+    post:
+      tags:
+        - MailDetail
+      summary: Sends the item list to be followed up
+      parameters:
+        - in: header
+          name: st_token
+          description: Token to validate the authentication
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: Content Type
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/mailDetail'
+      responses:
+        200:
+          description: Successful Response
+        403:
+          description: Invalid Token
+        404:
+          description: Not Found
+        5XX:
+          description: Unexpected error
+        default:
+          description: Unexpected error
+components:
+  requestBodies:
+    mailDetail:
+      description: A JSON object containing mail information to process
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                example: ftcc02
+              bomId:
+                type: string
+                example: atfs13000_02061700_00_00_O00
+              customerPOId:
+                type: string
+                example: XXXXX
+              receivers:
+                type: array
+                example: [xxxx@siemens.coms]
+              subject:
+                type: string
+          

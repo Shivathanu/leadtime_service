@@ -8,6 +8,8 @@ var cors = require('cors');
 var clientRouter = require('./routes/index');
 var serverRouter = require('./src/controller/index');
 var authService = require('./config/auth');
+var swaggerUi = require('swagger-ui-express');
+var apiDoc = require('./docs/config/index.js');
 
 var app = express();
 
@@ -31,6 +33,8 @@ app.use('/LeadtimeService/ping', function(request, response) {
         'LeadtimeService is up and running - release version - CL-P9'
     );
 });
+
+app.use('/LeadtimeService/api/docs', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
 // Authentication
 app.use('/LeadtimeService/api', function(request, response, next) {

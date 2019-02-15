@@ -1,0 +1,97 @@
+paths:
+  /bom-detail/follow-up/{bomId}/{duration}/{pageIndex}/{status}:
+    servers:
+    - url: '/LeadtimeService/api'
+    get:
+      tags:
+        - BomDetail
+      summary: Fetch the quote details based on follow up info
+      parameters:
+        - in: header
+          name: st_token
+          description: Token to validate the authentication
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: Content Type
+          schema:
+            type: string
+        - in: path
+          name: bomId          
+          schema:
+            type: string           
+            description: Id of the quote
+            enum: [NA, armssx00c_11011600_01_00_O00]
+          required: true
+        - in: path
+          name: duration
+          schema:
+            type: string            
+            description: Time duration
+            enum: ['2018-12-01,2019-02-01', pastDue, dueToday, oneWeek, oneMonth]
+          required: true
+        - in: path
+          name: pageIndex
+          schema:
+            type: integer
+            description: Offset limit to fetch the records
+            example: 1
+          required: true
+        - in: path
+          name: status
+          schema:
+            type: string
+            description: Status check of the quote
+            example: Hold
+            enum: [Hold, Released]
+          required: true
+      responses:
+        200:
+          description: Successful Response
+        403:
+          description: Invalid Token
+        404:
+          description: Not Found
+        5XX:
+          description: Unexpected error
+        default:
+          description: Unexpected error
+  /bom-detail/bom-info/{bomId}:
+    servers:
+    - url: '/LeadtimeService/api'
+    get:
+      tags:
+        - BomDetail
+      summary: Fetch the quote details header info
+      parameters:
+        - in: header
+          name: st_token
+          description: Token to validate the authentication
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: Content Type
+          schema:
+            type: string
+        - in: path
+          name: bomId
+          schema:
+            type: string
+            description: Id of the quote
+            example: askidl000_02031700_02_00_M00
+          required: true
+      responses:
+        200:
+          description: Successful Response
+        403:
+          description: Invalid Token
+        404:
+          description: Not Found
+        5XX:
+          description: Unexpected error
+        default:
+          description: Unexpected error

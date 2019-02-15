@@ -1,0 +1,52 @@
+paths:
+  /item-detail/follow-up/{type}/{itemId}/{bomId}:
+    servers:
+    - url: '/LeadtimeService/api'
+    get:
+      tags:
+        - ItemDetail
+      summary: Fetch the quote details based on follow up info
+      parameters:
+        - in: header
+          name: st_token
+          description: Token to validate the authentication
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: Content Type
+          schema:
+            type: string
+        - in: path
+          name: type
+          schema:
+            type: string
+            description: Item type
+            enum: [parent, child, both]
+          required: true
+        - in: path
+          name: itemId
+          schema:
+            type: string
+            description: Id of the item
+            example: NA
+          required: true
+        - in: path
+          name: bomId
+          schema:
+            type: string
+            description: Id of the quote
+            example: atfs13000_02061701_00_00_O00
+          required: true
+      responses:
+        200:
+          description: Successful Response
+        403:
+          description: Invalid Token
+        404:
+          description: Not Found
+        5XX:
+          description: Unexpected error
+        default:
+          description: Unexpected error

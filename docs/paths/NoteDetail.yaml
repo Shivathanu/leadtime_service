@@ -1,0 +1,93 @@
+paths:
+  /note/create:
+    servers:
+    - url: '/LeadtimeService/api'
+    post:
+      tags:
+        - NoteDetail
+      summary: Sends the item list to be followed up
+      parameters:
+        - in: header
+          name: st_token
+          description: Token to validate the authentication
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: Content Type
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/noteDetail'
+      responses:
+        200:
+          description: Successful Response
+        403:
+          description: Invalid Token
+        404:
+          description: Not Found
+        5XX:
+          description: Unexpected error
+        default:
+          description: Unexpected error
+  /note/{bomId}:
+    servers:
+    - url: '/LeadtimeService/api'
+    get:
+      tags:
+        - NoteDetail
+      summary: Fetch the quote details header info
+      parameters:
+        - in: header
+          name: st_token
+          description: Token to validate the authentication
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: Content Type
+          schema:
+            type: string
+        - in: path
+          name: bomId
+          schema:
+            type: string
+            description: Id of the quote
+            example: askidl000_02031700_02_00_M00
+          required: true
+      responses:
+        200:
+          description: Successful Response
+        403:
+          description: Invalid Token
+        404:
+          description: Not Found
+        5XX:
+          description: Unexpected error
+        default:
+          description: Unexpected error
+components:
+  requestBodies:
+    noteDetail:
+      description: A JSON object containing note information for create
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                example: ftcc02
+              bomId:
+                type: string
+                example: atfs13000_02061700_00_00_O00
+              content:
+                type: string
+                example: Test Note
+              createdAt:
+                type: datetime
+                example: 2019-02-15T11:25:12.511Z
+          
