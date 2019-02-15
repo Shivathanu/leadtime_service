@@ -83,22 +83,30 @@ var getFollowUpItemsList = function(reqParams, getItemsCB) {
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
-        var dateParam = {
-            pastDue: {
-                requiredReleaseDate: { [Op.lt]: date }
-            },
-            dueToday: {
-                requiredReleaseDate: { [Op.gte]: date },
-                followUpDate: { [Op.lte]: date }
-            },
-            oneWeek: {
-                followUpDate: { [Op.gt]: new Date(year, month, day + 5)}
-            },
-            oneMonth: {
-                followUpDate: { [Op.gt]: new Date(year, month, day + 30)}
-            }
-        };
-        whereParam = _.extend(whereParam, dateParam[reqParams.duration]);
+        switch(reqParams.duration) {
+            case 'pastDue':
+                whereParam.requiredReleaseDate = { [Op.lt]: date };
+                break;
+            case 'dueToday':
+                whereParam.requiredReleaseDate = { [Op.gte]: date };
+                whereParam.followUpDate = { [Op.lte]: date };
+                break;
+            case 'oneWeek':
+                whereParam.followUpDate = { [Op.gt]: new Date(year, month, day + 5) };
+                break;
+            case 'oneMonth':
+                whereParam.followUpDate = { [Op.gt]: new Date(year, month, day + 30) };
+                break;
+            default:
+                var dateRange = reqParams.duration.split(',');
+                whereParam.followUpDate = {
+                    [Op.and]: {
+                        [Op.gte]: dateRange[0],
+                        [Op.lte]: dateRange[1]
+                    }
+                };
+                break;
+        }
         /* jshint ignore:end */
     }
     if (reqParams.itemId !== 'NA') {
@@ -157,22 +165,30 @@ ItemDetailService.getHoldBomDetails = function(reqParams, getBomsCB) {
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
-        var dateParam = {
-            pastDue: {
-                requiredReleaseDate: { [Op.lt]: date }
-            },
-            dueToday: {
-                requiredReleaseDate: { [Op.gte]: date },
-                followUpDate: { [Op.lte]: date }
-            },
-            oneWeek: {
-                followUpDate: { [Op.gt]: new Date(year, month, day + 5) }
-            },
-            oneMonth: {
-                followUpDate: { [Op.gt]: new Date(year, month, day + 30) }
-            }
-        };
-        whereParam = _.extend(whereParam, dateParam[reqParams.duration]);
+        switch(reqParams.duration) {
+            case 'pastDue':
+                whereParam.requiredReleaseDate = { [Op.lt]: date };
+                break;
+            case 'dueToday':
+                whereParam.requiredReleaseDate = { [Op.gte]: date };
+                whereParam.followUpDate = { [Op.lte]: date };
+                break;
+            case 'oneWeek':
+                whereParam.followUpDate = { [Op.gt]: new Date(year, month, day + 5) };
+                break;
+            case 'oneMonth':
+                whereParam.followUpDate = { [Op.gt]: new Date(year, month, day + 30) };
+                break;
+            default:
+                var dateRange = reqParams.duration.split(',');
+                whereParam.followUpDate = {
+                    [Op.and]: {
+                        [Op.gte]: dateRange[0],
+                        [Op.lte]: dateRange[1]
+                    }
+                };
+                break;
+        }
         /* jshint ignore:end */
     }
     if (reqParams.bomSearch !== 'NA') {
